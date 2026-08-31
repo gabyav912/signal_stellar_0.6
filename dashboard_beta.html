@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Señal Stellar, una aplicación de estudio y productividad con temporizador Pomodoro, tareas, música y seguimiento del progreso.">
 <title>Señal Stellar - Panel Principal</title>
 <link rel="icon" type="image/png" href="logo_signal_stellar.png">
 <link rel="stylesheet" href="estilos_globales.css">
@@ -487,7 +488,7 @@
     // Usamos imágenes de Lorem Picsum (https://picsum.photos/) que son gratis y fáciles de usar.
     // --- LÓGICA DE LAS 5 GALERÍAS DE IMÁGENES ---
     const galeriasData = [
-        // Galería 1: Nebulosas
+
         [
             "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=400&h=250&fit=crop",
             "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&h=250&fit=crop",
@@ -540,7 +541,7 @@
         // Actualizar el atributo src de la imagen correspondienta
         const imgElement = document.getElementById(`img-${galeriaIndex}`);
         imgElement.src = imagenes[indicesGaleria[galeriaIndex]];
-    }
+          }
 
     // Inicializar las galerías cargando la primera imagen de cada una
     window.addEventListener("DOMContentLoaded", () => {
