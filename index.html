@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Señal Stellar - Registro</title>
+    <link rel="icon" type="image/png" href="logo_signal_stellar.png">
+    <link rel="stylesheet" href="estilos_globales.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--panel-secundario, #1a1a1a);
+            font-family: sans-serif;
+        }
+
+        .card-registro {
+            background: var(--panel, #2b2b2b);
+            border: 1px solid var(--borde, #444);
+            border-radius: 12px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .card-registro h2 {
+            color: var(--dorado, #d4af37);
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .campo {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .campo label {
+            color: var(--texto, #fff);
+            font-size: 14px;
+        }
+
+        .campo input, .campo select {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--borde, #555);
+            background: var(--panel-secundario, #1a1a1a);
+            color: var(--texto, #fff);
+            font-size: 14px;
+        }
+
+        .btn-registro {
+            width: 100%;
+            padding: 12px;
+            background: var(--dorado, #d4af37);
+            border: none;
+            border-radius: 6px;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: opacity 0.2s;
+        }
+
+        .btn-registro:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card-registro">
+    <h2>Crear Cuenta</h2>
+    <form id="formRegistro">
+        <div class="campo">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" required>
+        </div>
+
+        <div class="campo">
+            <label for="apellido">Apellido</label>
+            <input type="text" id="apellido" required>
+        </div>
+
+        <div class="campo">
+            <label for="usuario">Nombre de usuario</label>
+            <input type="text" id="usuario" required>
+        </div>
+
+        <div class="campo">
+            <label for="pais">País</label>
+            <input type="text" id="pais" placeholder="Ej: Argentina">
+        </div>
+
+        <div class="campo">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" required>
+        </div>
+
+        <div class="campo">
+            <label for="clave">Contraseña</label>
+            <input type="password" id="clave" required>
+        </div>
+
+        <div class="campo">
+            <label for="confirmarClave">Confirmar contraseña</label>
+            <input type="password" id="confirmarClave" required>
+        </div>
+
+        <button type="submit" class="btn-registro">Registrarse</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById("formRegistro").addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const nombre = document.getElementById("nombre").value.trim();
+        const apellido = document.getElementById("apellido").value.trim();
+        const usuario = document.getElementById("usuario").value.trim();
+        const pais = document.getElementById("pais").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const clave = document.getElementById("clave").value;
+        const confirmarClave = document.getElementById("confirmarClave").value;
+
+        // Corrección del operador de comparación (===)
+        if (clave !== confirmarClave) {
+            alert("Las contraseñas no coinciden.");
+            return;
+        }
+
+        // Guardar todos los datos necesarios para dashboard_beta.html
+        localStorage.setItem("nombre", nombre);
+        localStorage.setItem("apellido", apellido);
+        localStorage.setItem("usuario", usuario);
+        localStorage.setItem("pais", pais);
+        localStorage.setItem("email", email);
+
+        alert("¡Registro exitoso!");
+        
+        // Redirección al Dashboard tras completar el registro
+        window.location.href = "dashboard_beta.html";
+    });
+</script>
+
+</body>
+</html>

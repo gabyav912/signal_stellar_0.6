@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Señal Stellar - Soporte Técnico</title>
+    <link rel="icon" type="image/png" href="logo_signal_stellar.png">
+    <link rel="stylesheet" href="estilos_globales.css">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header superior */
+        header {
+            background: var(--panel);
+            border-bottom: 1px solid var(--borde);
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .titulo h1 {
+            color: var(--dorado);
+            font-size: 24px;
+            margin: 0;
+            font-weight: normal;
+        }
+
+        .titulo p {
+            color: var(--texto-secundario);
+            font-size: 14px;
+            margin: 3px 0 0 0;
+        }
+
+        .perfil {
+            background: var(--panel-secundario);
+            border: 1px solid var(--dorado);
+            color: var(--dorado);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* Contenedor central libre */
+        main.soporte-container {
+            flex: 1;
+            max-width: 850px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        .card-soporte {
+            background: var(--panel);
+            border: 1px solid var(--borde);
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+        .card-soporte h2 {
+            color: var(--dorado);
+            font-size: 20px;
+            margin: 0 0 15px 0;
+        }
+
+        .card-soporte p {
+            color: var(--texto-secundario);
+            line-height: 1.6;
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* Bloque de canal de contacto */
+        .canal-contacto {
+            background: var(--panel-secundario);
+            border: 1px dashed var(--dorado);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .canal-contacto span {
+            display: block;
+            color: var(--texto-secundario);
+            font-size: 13px;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+
+        .canal-contacto a {
+            color: var(--dorado);
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .canal-contacto a:hover {
+            text-decoration: underline;
+        }
+
+        .acceso-faq {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 18px;
+            background: var(--panel-secundario);
+            color: var(--texto);
+            border: 1px solid var(--borde);
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .acceso-faq:hover {
+            border-color: var(--dorado);
+            color: var(--dorado);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--panel);
+            border-top: 1px solid var(--borde);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        footer a {
+            color: var(--texto-secundario);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        footer a:hover {
+            color: var(--dorado);
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="titulo">
+        <h1>SEÑAL-STELLAR</h1>
+        <p>Centro de Soporte Técnico</p>
+    </div>
+
+    <div class="perfil">
+        <span id="iniciales">--</span>
+    </div>
+</header>
+
+<main class="soporte-container">
+    <div class="card-soporte">
+        <h2>Contacto y Asistencia de Misión</h2>
+        <p>¿Tienes problemas con la interfaz, la sincronización de datos o el temporizador? El equipo de soporte técnico está disponible para asistirte.</p>
+
+        <div class="canal-contacto">
+            <span>CANAL DIRECTO DE COMUNICACIÓN</span>
+            <a href="mailto:soporte@señalstellar.com">soporte@señalstellar.com</a>
+        </div>
+
+        <p>Antes de enviar un mensaje, te recomendamos consultar la sección de preguntas frecuentes para resolver las dudas más comunes de forma inmediata.</p>
+
+        <a href="faq_beta.html" class="acceso-faq">Consultar Base de Datos FAQ &rarr;</a>
+    </div>
+</main>
+
+<footer>
+    <a href="dashboard_beta.html">Volver al Panel</a>
+    <a href="blog_beta.html">Blog</a>
+    <a href="faq_beta.html">FAQ</a>
+    <a href="nosotros_beta.html">Nosotros</a>
+    <a href="soporte_beta.html" style="color: var(--dorado);">Soporte</a>
+    <a href="curso_beta.html">Curso</a>
+    <a href="cv_beta.html">CV</a>
+</footer>
+
+<script>
+    let nombre = localStorage.getItem("nombre");
+    let apellido = localStorage.getItem("apellido");
+
+    if(nombre){
+        let inicialNombre = nombre.charAt(0) || "";
+        let inicialApellido = apellido ? apellido.charAt(0) : "";
+        document.getElementById("iniciales").textContent =
+        (inicialNombre + inicialApellido).toUpperCase();
+    }
+</script>
+
+</body>
+</html>

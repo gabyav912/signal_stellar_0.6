@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Señal Stellar - Bitácora</title>
+    <link rel="icon" type="image/png" href="logo_signal_stellar.png">
+    <link rel="stylesheet" href="estilos_globales.css">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header superior centrado y despejado */
+        header {
+            background: var(--panel);
+            border-bottom: 1px solid var(--borde);
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .titulo h1 {
+            color: var(--dorado);
+            font-size: 24px;
+            margin: 0;
+            font-weight: normal;
+        }
+
+        .titulo p {
+            color: var(--texto-secundario);
+            font-size: 14px;
+            margin: 3px 0 0 0;
+        }
+
+        .perfil {
+            background: var(--panel-secundario);
+            border: 1px solid var(--dorado);
+            color: var(--dorado);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* Contenedor principal sin barra lateral para espacio libre */
+        main.blog-container {
+            flex: 1;
+            max-width: 850px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        /* Tarjetas de los artículos */
+        article {
+            background: var(--panel);
+            border: 1px solid var(--borde);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .post-img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid var(--borde);
+        }
+
+        .meta {
+            color: var(--dorado);
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        article h2 {
+            color: var(--texto);
+            margin: 0 0 12px 0;
+            font-size: 22px;
+        }
+
+        article p {
+            color: var(--texto-secundario);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* Sección de comentarios dentro de la tarjeta */
+        .comentarios {
+            background: var(--panel-secundario);
+            border: 1px solid var(--borde);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .comentarios h4 {
+            color: var(--dorado);
+            margin: 0 0 10px 0;
+            font-size: 14px;
+        }
+
+        .comentario-item {
+            color: var(--texto-secundario);
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .user-tag {
+            color: var(--texto);
+            font-weight: bold;
+        }
+
+        /* Footer inferior */
+        footer {
+            background: var(--panel);
+            border-top: 1px solid var(--borde);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        footer a {
+            color: var(--texto-secundario);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        footer a:hover {
+            color: var(--dorado);
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="titulo">
+        <h1>SEÑAL-STELLAR</h1>
+        <p>Bitácora de Productividad</p>
+    </div>
+
+    <div class="perfil">
+        <span id="iniciales">--</span>
+    </div>
+</header>
+
+<main class="blog-container">
+    <article>
+        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800" class="post-img" alt="Tecnología espacial">
+        <div class="meta">FECHA ESTELAR: 2026.05.11 | AUTOR: Comandante Stellar</div>
+        <h2>¿Cómo mejorar tu concentración?</h2>
+        <p>La concentración es una habilidad que se entrena día a día. Usar pausas activas ayuda a mantener el cerebro fresco para las misiones más difíciles.</p>
+        
+        <section class="comentarios">
+            <h4>Comunicación de la Tripulación</h4>
+            <div class="comentario-item">
+                <span class="user-tag">@Usuario123:</span> ¡Muy buen artículo! Me sirvió para estudiar mejor.
+            </div>
+        </section>
+    </article>
+
+    <article>
+        <img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=800" class="post-img" alt="Cabina de nave">
+        <div class="meta">FECHA ESTELAR: 2026.05.08 | AUTOR: Admin_Stellar</div>
+        <h2>Configuración de tu espacio de trabajo</h2>
+        <p>Un escritorio ordenado es una mente ordenada. No olviden revisar la sección de ajustes para personalizar sus alertas de sistema.</p>
+        
+        <section class="comentarios">
+            <h4>Comunicación de la Tripulación</h4>
+            <div class="comentario-item">
+                <span class="user-tag">@Tripulante_X:</span> Mi setup ahora parece una verdadera cabina de mando.
+            </div>
+        </section>
+    </article>
+</main>
+
+<footer>
+    <a href="dashboard_beta.html">Volver al Panel</a>
+    <a href="blog_beta.html" style="color: var(--dorado);">Blog</a>
+    <a href="faq_beta.html">FAQ</a>
+    <a href="nosotros_beta.html">Nosotros</a>
+    <a href="soporte_beta.html">Soporte</a>
+    <a href="curso_beta.html">Curso</a>
+    <a href="cv_beta.html">CV</a>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const sesionRaw = localStorage.getItem("usuarioStellarSesion");
+
+    // Si no hay sesión, redirige a index.html
+    if (!sesionRaw) {
+        window.location.href = "index.html";
+        return;
+    }
+
+    const sesion = JSON.parse(sesionRaw);
+
+    // Obtener iniciales desde el nombre registrado
+    if (sesion.nombre) {
+        const partes = sesion.nombre.trim().split(" ");
+        let iniciales = partes[0].charAt(0);
+        if (partes.length > 1) {
+            iniciales += partes[partes.length - 1].charAt(0);
+        }
+        document.getElementById("iniciales").textContent = iniciales.toUpperCase();
+    } else if (sesion.usuario) {
+        document.getElementById("iniciales").textContent = sesion.usuario.charAt(0).toUpperCase();
+    }
+});
+</script>
+
+</body>
+</html>

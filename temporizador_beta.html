@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Señal Stellar - Temporizador Accesible</title>
+    <link rel="icon" type="image/png" href="logo_signal_stellar.png">
+    <!-- Vinculación a los estilos globales -->
+    <link rel="stylesheet" href="estilos_globales.css">
+    
+    <style>
+        /* Estilos específicos para la interfaz del temporizador utilizando la paleta de estilos_globales.css */
+        :root {
+            --azul-largo: #29b6f6; /* Variable de soporte para descanso largo */
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .contenedor-stellar {
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .cabecera h1 {
+            color: var(--dorado);
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            font-family: var(--fuente-principal);
+        }
+
+        .mision-estado {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding: 12px;
+            background: var(--panel-secundario);
+            border-radius: 8px;
+            border: 1px solid var(--borde);
+            color: var(--texto-secundario);
+            font-family: var(--fuente-secundaria);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sector-tiempos {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .reloj-contenedor {
+            background: var(--panel-secundario);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--borde);
+            flex: 1;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .reloj-titulo {
+            font-size: 1rem;
+            color: var(--texto-secundario);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: var(--fuente-secundaria);
+        }
+
+        .pantalla-reloj {
+            font-size: 3rem;
+            font-weight: bold;
+            font-family: monospace;
+            transition: transform 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        /* Clase añadida dinámicamente por JS */
+        .activo-glow {
+            transform: scale(1.05);
+            text-shadow: 0 0 15px currentColor;
+        }
+
+        .panel-botones {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .contador-rondas {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: var(--dorado);
+            font-weight: bold;
+            font-family: var(--fuente-secundaria);
+        }
+
+        /* Modal Overlay y Avisos flotantes */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            z-index: 998;
+        }
+
+        .overlay.visible {
+            display: block;
+        }
+
+        .aviso-stellar {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--panel);
+            border: 2px solid var(--dorado);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            display: none;
+            z-index: 999;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .aviso-stellar.visible {
+            display: block;
+        }
+
+        .aviso-stellar h3 {
+            color: var(--dorado);
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+        }
+
+        .aviso-stellar p {
+            color: var(--texto);
+            margin-bottom: 20px;
+            font-family: var(--fuente-secundaria);
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 500px) {
+            .sector-tiempos {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- iframe invisible para ejecutar el audio en segundo plano -->
+    <iframe src="musica.html" style="display:none;" id="reproductor-segundo-plano"></iframe>
+
+    <div class="contenedor-stellar panel">
+        <div class="cabecera">
+            <h1>SEÑAL STELLAR</h1>
+        </div>
+
+        <div class="mision-estado" id="mision-estado">Listo para comenzar</div>
+
+        <div class="panel-principal">
+            <div class="sector-tiempos">
+                <div class="reloj-contenedor" id="contenedor-accion">
+                    <div class="reloj-titulo">Acción</div>
+                    <div class="pantalla-reloj" id="display-accion" style="color: var(--rojo);">25:00</div>
+                </div>
+
+                <div class="reloj-contenedor" id="contenedor-break">
+                    <div class="reloj-titulo" id="titulo-break">Break</div>
+                    <div class="pantalla-reloj" id="display-break" style="color: var(--verde);">05:00</div>
+                </div>
+            </div>
+
+            <div class="panel-botones">
+                <button class="btn btn-empezar" id="btn-empezar" onclick="controlarTemporizador()">Empezar</button>
+                <button class="btn btn-secondary btn-musica" onclick="irAMusica()">Música</button>
+                <button class="btn btn-secondary btn-ajustes" onclick="irAAjustes()">Configurar</button>
+                <button class="btn btn-secondary btn-abortar" onclick="abortarMision()">Abortar</button>
+            </div>
+        </div>
+
+        <div class="contador-rondas" id="contador-rondas">
+            Ciclo: 1 de 4
+        </div>
+    </div>
+
+    <audio id="audio-alerta" preload="auto"></audio>
+
+    <div class="overlay" id="pantalla-overlay"></div>
+    <div class="aviso-stellar" id="aviso-pop">
+        <h3 id="aviso-titulo">¡Fin del Tiempo!</h3>
+        <p id="aviso-mensaje">Es hora de realizar una acción.</p>
+        <button class="btn" onclick="cerrarAviso()">Entendido</button>
+    </div>
+
+    <script>
+        // Verificación de sesión al cargar la pantalla
+        const sesionRaw = localStorage.getItem("usuarioStellarSesion");
+        if (!sesionRaw) {
+            window.location.href = "index.html";
+        }
+
+        const configKey = "senalStellarAjustes";
+        const canalMusicaKey = "senalStellarComandoMusica";
+
+        const defaultConfig = {
+            colorAccion: "#ff3d00",
+            colorBreak: "#00e676",
+            tiempoPomodoro: "25",
+            tiempoBreak: "5",
+            tiempoDescanso: "15",
+            repeticionesPomodoro: "4",
+            sonidoAlarma: "soft.ogg",
+            volumenAlarma: 80,
+            activarSonido: true,
+            musicaTemporizador: true,
+            musicaBreak: true
+        };
+
+        let config = loadConfig();
+        let totalPomodoros = 4;
+        let pomodoroActual = 1;
+        let tiempoRestante = 0; 
+        let modoActual = "accion";
+        let timerIntervalo = null;
+        let ejecutando = false;
+
+        const displayAccion = document.getElementById("display-accion");
+        const displayBreak = document.getElementById("display-break");
+        const tituloBreak = document.getElementById("titulo-break");
+        const btnEmpezar = document.getElementById("btn-empezar");
+        const misionEstado = document.getElementById("mision-estado");
+        const audioAlerta = document.getElementById("audio-alerta");
+        const contadorRondas = document.getElementById("contador-rondas");
+
+        function loadConfig() {
+            const datos = localStorage.getItem(configKey);
+            if (datos) {
+                try {
+                    return { ...defaultConfig, ...JSON.parse(datos) };
+                } catch (e) {
+                    return { ...defaultConfig };
+                }
+            }
+            return { ...defaultConfig };
+        }
+
+        function inicializar() {
+            config = loadConfig();
+            totalPomodoros = parseInt(config.repeticionesPomodoro) || 4;
+            pomodoroActual = 1;
+
+            document.documentElement.style.setProperty('--rojo', config.colorAccion);
+            document.documentElement.style.setProperty('--verde', config.colorBreak);
+            displayAccion.style.color = config.colorAccion;
+            displayBreak.style.color = config.colorBreak;
+
+            const minAccion = parseInt(config.tiempoPomodoro);
+            const minBreak = parseInt(config.tiempoBreak);
+
+            displayAccion.textContent = `${String(minAccion).padStart(2, '0')}:00`;
+            displayBreak.textContent = `${String(minBreak).padStart(2, '0')}:00`;
+
+            modoActual = "accion";
+            tiempoRestante = minAccion * 60;
+
+            audioAlerta.src = "audio/" + config.sonidoAlarma;
+            audioAlerta.volume = config.volumenAlarma / 100;
+
+            actualizarContadorRondas();
+        }
+
+        function actualizarContadorRondas() {
+            contadorRondas.textContent = `Pomodoro: ${pomodoroActual} de ${totalPomodoros}`;
+        }
+
+        function enviarComandoMusica(estado, tipo) {
+            const comando = {
+                estado: estado,
+                tipo: tipo,
+                timestamp: Date.now()
+            };
+            localStorage.setItem(canalMusicaKey, JSON.stringify(comando));
+        }
+
+        function controlarTemporizador() {
+            if (ejecutando) {
+                pausarTemporizador();
+            } else {
+                iniciarTemporizador();
+            }
+        }
+
+        function iniciarTemporizador() {
+            ejecutando = true;
+            btnEmpezar.textContent = "Pausar";
+            btnEmpezar.style.backgroundColor = "#ff9100";
+
+            if (modoActual === "accion") {
+                displayAccion.classList.add("activo-glow");
+                displayBreak.classList.remove("activo-glow");
+                misionEstado.textContent = "ESTUDIANDO (Acción)";
+                misionEstado.style.color = "var(--rojo)";
+                
+                if (config.musicaTemporizador) {
+                    enviarComandoMusica("play", "accion");
+                }
+            } else if (modoActual === "break") {
+                displayBreak.classList.add("activo-glow");
+                displayAccion.classList.remove("activo-glow");
+                misionEstado.textContent = "DESCANSO CORTO (Break)";
+                misionEstado.style.color = "var(--verde)";
+
+                if (config.musicaBreak) {
+                    enviarComandoMusica("play", "break");
+                }
+            } else if (modoActual === "descanso_largo") {
+                displayBreak.classList.add("activo-glow");
+                displayAccion.classList.remove("activo-glow");
+                misionEstado.textContent = "DESCANSO LARGO";
+                misionEstado.style.color = "var(--azul-largo)";
+                
+                enviarComandoMusica("stop", "break");
+            }
+
+            timerIntervalo = setInterval(() => {
+                if (tiempoRestante > 0) {
+                    tiempoRestante--;
+                    actualizarDisplays();
+                } else {
+                    finalizarCiclo();
+                }
+            }, 1000);
+        }
+
+        function pausarTemporizador() {
+            ejecutando = false;
+            clearInterval(timerIntervalo);
+            btnEmpezar.textContent = "Reanudar";
+            btnEmpezar.style.backgroundColor = "var(--verde)";
+            
+            enviarComandoMusica("stop", modoActual);
+        }
+
+        function actualizarDisplays() {
+            const minutos = Math.floor(tiempoRestante / 60);
+            const segundos = tiempoRestante % 60;
+            const formato = `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
+
+            if (modoActual === "accion") {
+                displayAccion.textContent = formato;
+            } else {
+                displayBreak.textContent = formato;
+            }
+        }
+
+        function finalizarCiclo() {
+            clearInterval(timerIntervalo);
+            ejecutando = false;
+
+            enviarComandoMusica("stop", modoActual);
+
+            if (config.activarSonido) {
+                audioAlerta.currentTime = 0;
+                audioAlerta.play().catch(e => console.log("Audio bloqueado"));
+            }
+
+            if (modoActual === "accion") {
+                if (pomodoroActual >= totalPomodoros) {
+                    tituloBreak.textContent = "D. Largo";
+                    displayBreak.style.color = "var(--azul-largo)";
+                    
+                    mostrarAviso(
+                        "¡Meta Alcanzada!", 
+                        "Has terminado todos tus pomodoros. Ahora inicia un descanso largo para despejarte.",
+                        () => {
+                            modoActual = "descanso_largo";
+                            tiempoRestante = parseInt(config.tiempoDescanso) * 60;
+                            actualizarDisplays();
+                            iniciarTemporizador();
+                        }
+                    );
+                } else {
+                    tituloBreak.textContent = "Break";
+                    displayBreak.style.color = "var(--verde)";
+
+                    mostrarAviso(
+                        "¡Hora de Descansar!", 
+                        "Buen trabajo en este bloque. Tómate un respiro corto.",
+                        () => {
+                            modoActual = "break";
+                            tiempoRestante = parseInt(config.tiempoBreak) * 60;
+                            actualizarDisplays();
+                            iniciarTemporizador();
+                        }
+                    );
+                }
+            } else if (modoActual === "break") {
+                pomodoroActual++;
+                actualizarContadorRondas();
+
+                mostrarAviso(
+                    "¡A Estudiar!", 
+                    "El descanso ha terminado. Volvamos al estudio con energía.",
+                    () => {
+                        modoActual = "accion";
+                        tiempoRestante = parseInt(config.tiempoPomodoro) * 60;
+                        actualizarDisplays();
+                        iniciarTemporizador();
+                    }
+                );
+            } else if (modoActual === "descanso_largo") {
+                pomodoroActual = 1;
+                actualizarContadorRondas();
+                tituloBreak.textContent = "Break";
+                displayBreak.style.color = "var(--verde)";
+
+                mostrarAviso(
+                    "¡Ciclo Completado!", 
+                    "Has completado toda la sesión. ¿Listo para comenzar una nueva tanda?",
+                    () => {
+                        modoActual = "accion";
+                        tiempoRestante = parseInt(config.tiempoPomodoro) * 60;
+                        actualizarDisplays();
+                        iniciarTemporizador();
+                    }
+                );
+            }
+        }
+
+        let callbackActual = null;
+        function mostrarAviso(titulo, mensaje, callback) {
+            document.getElementById("aviso-titulo").textContent = titulo;
+            document.getElementById("aviso-mensaje").textContent = mensaje;
+            
+            document.getElementById("pantalla-overlay").classList.add("visible");
+            document.getElementById("aviso-pop").classList.add("visible");
+            
+            callbackActual = callback;
+        }
+
+        function cerrarAviso() {
+            document.getElementById("pantalla-overlay").classList.remove("visible");
+            document.getElementById("aviso-pop").classList.remove("visible");
+            
+            audioAlerta.pause();
+            audioAlerta.currentTime = 0;
+
+            if (callbackActual) {
+                callbackActual();
+                callbackActual = null;
+            }
+        }
+
+        function irAAjustes() {
+            window.location.href = "ajustes_beta.html";
+        }
+
+        function irAMusica() {
+            window.open("musica_beta.html", "_blank");
+        }
+
+        function abortarMision() {
+            if (confirm("¿Estás seguro de que deseas cancelar la sesión actual?")) {
+                clearInterval(timerIntervalo);
+                ejecutando = false;
+                enviarComandoMusica("stop", "accion");
+                enviarComandoMusica("stop", "break");
+                window.location.href = "dashboard_beta.html";
+            }
+        }
+
+        window.onload = inicializar;
+    </script>
+</body>
+</html>

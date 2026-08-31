@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Señal Stellar - Trayectoria de Aprendizaje</title>
+    <link rel="icon" type="image/png" href="logo_signal_stellar.png">
+    <link rel="stylesheet" href="estilos_globales.css">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header superior */
+        header {
+            background: var(--panel);
+            border-bottom: 1px solid var(--borde);
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .titulo h1 {
+            color: var(--dorado);
+            font-size: 24px;
+            margin: 0;
+            font-weight: normal;
+        }
+
+        .titulo p {
+            color: var(--texto-secundario);
+            font-size: 14px;
+            margin: 3px 0 0 0;
+        }
+
+        .perfil {
+            background: var(--panel-secundario);
+            border: 1px solid var(--dorado);
+            color: var(--dorado);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* Contenedor libre sin barra lateral */
+        main.curso-container {
+            flex: 1;
+            max-width: 850px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        /* Tarjetas de estaciones/módulos */
+        .estacion {
+            background: var(--panel);
+            border: 1px solid var(--borde);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: border-color 0.2s;
+        }
+
+        .estacion:hover {
+            border-color: var(--dorado);
+        }
+
+        .estacion.bloqueado {
+            opacity: 0.65;
+        }
+
+        .estacion.bloqueado:hover {
+            border-color: var(--borde);
+        }
+
+        .img-curso {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--borde);
+            flex-shrink: 0;
+        }
+
+        .contenido-estacion {
+            flex: 1;
+        }
+
+        /* Insignias de estado */
+        .status-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .badge-completado {
+            background: rgba(46, 204, 113, 0.15);
+            color: #2ecc71;
+            border: 1px solid #2ecc71;
+        }
+
+        .badge-encurso {
+            background: rgba(241, 196, 15, 0.15);
+            color: var(--dorado);
+            border: 1px solid var(--dorado);
+        }
+
+        .badge-bloqueado {
+            background: var(--panel-secundario);
+            color: var(--texto-secundario);
+            border: 1px solid var(--borde);
+        }
+
+        .contenido-estacion h3 {
+            color: var(--texto);
+            margin: 0 0 8px 0;
+            font-size: 18px;
+        }
+
+        .contenido-estacion p {
+            color: var(--texto-secundario);
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Ajuste responsive para pantallas pequeñas */
+        @media (max-width: 600px) {
+            .estacion {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .img-curso {
+                width: 100%;
+                height: 160px;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: var(--panel);
+            border-top: 1px solid var(--borde);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        footer a {
+            color: var(--texto-secundario);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        footer a:hover {
+            color: var(--dorado);
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="titulo">
+        <h1>SEÑAL-STELLAR</h1>
+        <p>Trayectoria de Aprendizaje</p>
+    </div>
+
+    <div class="perfil">
+        <span id="iniciales">--</span>
+    </div>
+</header>
+
+<main class="curso-container">
+    <div class="estacion">
+        <img src="https://images.unsplash.com/photo-1454165833767-027ffea9e77b?q=80&w=200" class="img-curso" alt="Gestión de tiempo">
+        <div class="contenido-estacion">
+            <span class="status-badge badge-completado">COMPLETADO</span>
+            <h3>Módulo 1: Fundamentos de Gestión</h3>
+            <p>Aprende las bases de la organización escolar y administración de recursos.</p>
+        </div>
+    </div>
+
+    <div class="estacion">
+        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=200" class="img-curso" alt="Tecnología">
+        <div class="contenido-estacion">
+            <span class="status-badge badge-encurso">EN CURSO</span>
+            <h3>Módulo 2: Herramientas Digitales</h3>
+            <p>Dominio de HTML, CSS y diseño de interfaces para proyectos técnicos.</p>
+        </div>
+    </div>
+
+    <div class="estacion bloqueado">
+        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=200" class="img-curso" alt="Sistemas">
+        <div class="contenido-estacion">
+            <span class="status-badge badge-bloqueado">BLOQUEADO</span>
+            <h3>Módulo 3: Sistemas y Redes</h3>
+            <p>Configuración de servidores y administración de redes locales.</p>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <a href="dashboard_beta.html">Volver al Panel</a>
+    <a href="blog_beta.html">Blog</a>
+    <a href="faq_beta.html">FAQ</a>
+    <a href="nosotros_beta.html">Nosotros</a>
+    <a href="soporte_beta.html">Soporte</a>
+    <a href="curso_beta.html" style="color: var(--dorado);">Curso</a>
+    <a href="cv_beta.html">CV</a>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const sesionRaw = localStorage.getItem("usuarioStellarSesion");
+
+    // Si no hay sesión, vuelve a index.html
+    if (!sesionRaw) {
+        window.location.href = "index.html";
+        return;
+    }
+
+    const sesion = JSON.parse(sesionRaw);
+
+    // Obtener iniciales desde el nombre registrado
+    if (sesion.nombre) {
+        const partes = sesion.nombre.trim().split(" ");
+        let iniciales = partes[0].charAt(0);
+        if (partes.length > 1) {
+            iniciales += partes[partes.length - 1].charAt(0);
+        }
+        document.getElementById("iniciales").textContent = iniciales.toUpperCase();
+    } else if (sesion.usuario) {
+        document.getElementById("iniciales").textContent = sesion.usuario.charAt(0).toUpperCase();
+    }
+});
+</script>
+
+</body>
+</html>

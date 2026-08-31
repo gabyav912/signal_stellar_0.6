@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Señal Stellar - Ayuda / FAQ</title>
+    <link rel="icon" type="image/png" href="logo_signal_stellar.png">
+    <link rel="stylesheet" href="estilos_globales.css">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header general */
+        header {
+            background: var(--panel);
+            border-bottom: 1px solid var(--borde);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .titulo h1 {
+            color: var(--dorado);
+            font-size: 24px;
+            margin: 0;
+            font-weight: normal;
+        }
+
+        .titulo p {
+            color: var(--texto-secundario);
+            font-size: 14px;
+            margin: 3px 0 0 0;
+        }
+
+        /* Layout principal */
+        .contenedor-dashboard {
+            display: flex;
+            flex: 1;
+        }
+
+        /* Menú lateral */
+        aside {
+            width: 260px;
+            background: var(--panel);
+            border-right: 1px solid var(--borde);
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        aside a {
+            color: var(--texto);
+            text-decoration: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        aside a:hover, aside a.activo {
+            background: var(--panel-secundario);
+            color: var(--dorado);
+        }
+
+        /* Contenido principal */
+        main {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .video-box {
+            background: var(--panel);
+            border: 1px solid var(--borde);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .video-box video {
+            width: 100%;
+            max-height: 400px;
+            border-radius: 8px;
+            background: #000;
+            margin-top: 15px;
+        }
+
+        .section-title {
+            color: var(--dorado);
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        /* Acordeón del Manual */
+        .manual-section {
+            background: var(--panel);
+            border: 1px solid var(--borde);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .manual-section:hover {
+            border-color: var(--dorado);
+        }
+
+        .section-header {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
+        }
+
+        .section-number {
+            color: var(--dorado);
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .section-name {
+            font-weight: bold;
+            flex: 1;
+        }
+
+        .toggle-icon {
+            color: var(--texto-secundario);
+            transition: transform 0.3s;
+        }
+
+        .section-content {
+            padding: 0 20px 20px 20px;
+            border-top: 1px solid transparent;
+            color: var(--texto-secundario);
+            line-height: 1.6;
+        }
+
+        /* Estado colapsado */
+        .manual-section.collapsed .section-content {
+            display: none;
+        }
+
+        .manual-section.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .subtitle-section {
+            color: var(--dorado);
+            font-weight: bold;
+        }
+
+        /* Botones de acción */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: var(--dorado);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            background: var(--panel-secundario);
+            color: var(--texto);
+            border: 1px solid var(--borde);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--panel);
+            border-top: 1px solid var(--borde);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        footer a {
+            color: var(--texto-secundario);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        footer a:hover {
+            color: var(--dorado);
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="titulo">
+        <h1>SEÑAL STELLAR</h1>
+        <p>Centro de Ayuda y Manual de Vuelo</p>
+    </div>
+</header>
+
+<div class="contenedor-dashboard">
+
+
+    <main>
+        <!-- SECCIÓN DEL VIDEO -->
+        <div class="video-box">
+            <div class="section-title">Video Guía: Gestión de Tiempo y Pomodoro</div>
+            <video controls muted loop poster="poster-stellar.jpg" preload="auto">
+                <source src="tutorial.mp4" type="video/mp4">
+                Tu navegador no soporta el elemento de video de HTML5.
+            </video>
+        </div>
+
+        <div class="section-title">Manual de Vuelo Señal Stellar</div>
+        <p style="margin-bottom: 25px; color: var(--texto-secundario);">
+            ¡Bienvenido a bordo, Comandante! Esta guía te ayudará a dominar las funciones de tu nave para conquistar tus metas.
+        </p>
+
+        <!-- Sección 1 -->
+        <div class="manual-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-number">1.</span>
+                    <span class="section-name">Centro de Mando (Inicio)</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p>Es el punto de despegue. Aquí seleccionas la duración de tu próxima Misión de Enfoque. Puedes usar los tiempos predeterminados o los que tú mismo hayas configurado.</p>
+            </div>
+        </div>
+
+        <!-- Sección 2 -->
+        <div class="manual-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-number">2.</span>
+                    <span class="section-name">Laboratorio (Personalización)</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p>Aquí ajustas los sistemas de tu nave a tu gusto:</p>
+                <ul>
+                    <li><span class="subtitle-section">Cronometría:</span> Cambia la duración de los ciclos Pomodoro y los descansos.</li>
+                    <li><span class="subtitle-section">Estética Visual:</span> Usa el Selector de Colores para cambiar el tono de tus cartas emergentes.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Sección 3 -->
+        <div class="manual-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-number">3.</span>
+                    <span class="section-name">En Órbita (Misión en Curso)</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p>Mientras la temporización corre, estarás "En Órbita". Aquí observarás:</p>
+                <ul>
+                    <li><span class="subtitle-section">Concentración Total:</span> No cierres la pestaña para no abortar la misión.</li>
+                    <li><span class="subtitle-section">Minimizar:</span> Puedes convertir el reloj en un cuadro flotante para seguir trabajando en otras webs sin perder de vista el tiempo.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Sección 4 -->
+        <div class="manual-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-number">4.</span>
+                    <span class="section-name">Módulo de Descanso</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p>Al terminar una misión, la nave entrará en modo de espera. Es vital que descanses para regenerar energía antes del próximo salto hiperespacial.</p>
+            </div>
+        </div>
+
+        <!-- Sección 5 -->
+        <div class="manual-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-number">5.</span>
+                    <span class="section-name">Bóveda (Sector Explorado)</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p>¡Tu registro de éxitos! Por cada misión de 25 minutos completada con éxito, recibirás una Carta Estelar.</p>
+                <ul>
+                    <li><span class="subtitle-section">Colecciona:</span> Planetas, lunas y fenómenos espaciales raros.</li>
+                    <li><span class="subtitle-section">Consulta:</span> Tu inventario en la sección de Logros para ver qué rincones del universo has descubierto.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Sección 6 -->
+        <div class="manual-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-number">6.</span>
+                    <span class="section-name">Suministros Sonoros (Música)</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p>Activa las transmisiones de audio para bloquear el ruido del vacío profundo. Elige entre música para concentrarte o ruidos para relajarte durante tus descansos.</p>
+            </div>
+        </div>
+
+        <!-- Sección 7 -->
+        <div class="manual-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-number">7.</span>
+                    <span class="section-name">Tip de Navegación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p>Recuerda: las misiones incompletas no otorgan cartas de recompensa. Cuando quieras salir de una de las opciones previas presiona el icono principal para volver al inicio.</p>
+            </div>
+        </div>
+
+        <!-- Botones de Control -->
+        <div class="button-group">
+            <button class="btn" onclick="expandAll()">Expandir Todo</button>
+            <button class="btn btn-secondary" onclick="collapseAll()">Contraer Todo</button>
+            <button class="btn btn-secondary" onclick="irAlRegistro()">Volver al Registro</button>
+        </div>
+    </main>
+</div>
+
+<footer>
+    <a href="dashboard_beta.html">volver al inicio</a>
+    <a href="faq_beta.html">FAQ</a>
+    <a href="nosotros_beta.html">Nosotros</a>
+    <a href="soporte_beta.html">Soporte</a>
+    <a href="curso_beta.html">Curso</a>
+    <a href="cv_beta.html">CV</a>
+</footer>
+
+<script>
+    const sections = document.querySelectorAll('.manual-section');
+
+    // Inicializar colapsados
+    sections.forEach(section => {
+        section.classList.add('collapsed');
+        section.addEventListener('click', function() {
+            this.classList.toggle('collapsed');
+        });
+    });
+
+    function expandAll() {
+        sections.forEach(section => {
+            section.classList.remove('collapsed');
+        });
+    }
+
+    function collapseAll() {
+        sections.forEach(section => {
+            section.classList.add('collapsed');
+        });
+    }
+
+    // Apunta limpiamente a registro_beta.html
+    function irAlRegistro() {
+        window.location.href = 'registro_beta.html';
+    }
+
+    // Evita que los clics en los botones dentro del acordeón cierren o abran secciones
+    document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    });
+</script>
+
+</body>
+</html>

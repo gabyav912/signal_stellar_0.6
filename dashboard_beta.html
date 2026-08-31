@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Señal Stellar - Panel Principal</title>
+<link rel="icon" type="image/png" href="logo_signal_stellar.png">
+<link rel="stylesheet" href="estilos_globales.css">
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        transition: background 0.3s, color 0.3s;
+    }
+
+    /* Clase para cambiar el tema */
+    body.modo-claro {
+        background-color: #f4f5f7;
+        color: #222222;
+        --panel: #ffffff;
+        --panel-secundario: #e9ecef;
+        --borde: #cccccc;
+        --texto: #111111;
+        --texto-secundario: #555555;
+    }
+
+    header {
+        background: var(--panel);
+        border-bottom: 1px solid var(--borde);
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .titulo h1 {
+        color: var(--dorado);
+        font-size: 24px;
+        margin: 0;
+        font-weight: normal;
+    }
+
+    .titulo p {
+        color: var(--texto-secundario);
+        font-size: 14px;
+        margin: 3px 0 0 0;
+    }
+
+    .header-derecha {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .reloj-fecha {
+        font-size: 14px;
+        color: var(--texto-secundario);
+        text-align: right;
+    }
+
+    .btn-tema {
+        background: var(--panel-secundario);
+        border: 1px solid var(--dorado);
+        color: var(--dorado);
+        padding: 8px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 13px;
+        transition: 0.2s;
+    }
+
+    .btn-tema:hover {
+        opacity: 0.8;
+    }
+
+    .perfil {
+        background: var(--panel-secundario);
+        border: 1px solid var(--dorado);
+        color: var(--dorado);
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .contenedor {
+        display: flex;
+        flex: 1;
+    }
+
+    aside {
+        width: 260px;
+        background: var(--panel);
+        border-right: 1px solid var(--borde);
+        padding: 20px 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    aside a {
+        color: var(--texto);
+        text-decoration: none;
+        padding: 12px 16px;
+        border-radius: 8px;
+        font-size: 15px;
+        transition: background 0.2s, color 0.2s;
+    }
+
+    aside a:hover, aside a.activo {
+        background: var(--panel-secundario);
+        color: var(--dorado);
+    }
+
+    main {
+        flex: 1;
+        padding: 30px;
+        overflow-y: auto;
+    }
+
+    .usuario, .panel {
+        background: var(--panel);
+        border: 1px solid var(--borde);
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .usuario h2, .panel h2 {
+        color: var(--dorado);
+        font-size: 18px;
+        margin-top: 0;
+    }
+
+    .encabezado-seccion {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .btn-toggle {
+        background: none;
+        border: 1px solid var(--borde);
+        color: var(--texto-secundario);
+        padding: 4px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+
+    .logros ul {
+        list-style: none;
+        padding: 0;
+        margin: 15px 0 0 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .logros li {
+        background: var(--panel-secundario);
+        padding: 10px 14px;
+        border-radius: 6px;
+        font-size: 14px;
+        border: 1px solid var(--borde);
+    }
+
+    .widgets {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 25px;
+    }
+
+    .widget {
+        background: var(--panel);
+        border: 1px solid var(--borde);
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .widget h3 {
+        color: var(--texto-secundario);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: normal;
+    }
+
+    .widget p {
+        color: var(--dorado);
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    footer {
+        background: var(--panel);
+        border-top: 1px solid var(--borde);
+        padding: 15px 30px;
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        flex-wrap: wrap;
+    }
+
+    footer a {
+        color: var(--texto-secundario);
+        text-decoration: none;
+        font-size: 14px;
+        transition: color 0.2s;
+    }
+
+    footer a:hover {
+        color: var(--dorado);
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="titulo">
+        <h1>SEÑAL-STELLAR</h1>
+        <p>Bienvenido, <span id="bienvenido"></span></p>
+    </div>
+
+    <div class="header-derecha">
+        <!-- Requisito 3: Fecha y hora en tiempo real -->
+        <div class="reloj-fecha" id="relojFecha">Cargando fecha y hora...</div>
+
+        <!-- Requisito 6: Cambiar el tema de la página -->
+        <button class="btn-tema" onclick="alternarTema()">🌓 Tema</button>
+
+        <div class="perfil">
+            <span id="iniciales">--</span>
+        </div>
+    </div>
+</header>
+
+<div class="contenedor">
+
+    <aside>
+        <a href="temporizador_beta.html">Iniciar temporizador</a>
+        <a href="stats_beta.html">Progreso</a>
+        <a href="dashboard_beta.html" class="activo">Logros</a>
+        <a href="musica_beta.html">Música</a>
+        <a href="tareas_beta.html">Cartas / Tareas</a>
+        <a href="ajustes_beta.html">Personalización</a>
+        <a href="faq_beta.html">Ayuda</a>
+    </aside>
+
+    <main>
+
+        <div class="usuario">
+            <h2>Mi perfil</h2>
+            <p><strong>Usuario:</strong> <span id="usuario"></span></p>
+            <p><strong>Nombre:</strong> <span id="nombre"></span></p>
+            <p><strong>País:</strong> <span id="pais"></span></p>
+        </div>
+
+        <div class="panel">
+
+            <div class="logros">
+                <div class="encabezado-seccion">
+                    <h2>Últimos logros</h2>
+                    <!-- Requisito 4: Menú interactivo / Ocultar u Mostrar -->
+                    <button class="btn-toggle" onclick="toggleLogros()">Ocultar / Mostrar</button>
+                </div>
+
+                <ul id="listaLogros">
+                    <li>🏆 Terminaste 12 temporizadores</li>
+                    <li>🔥 Días de constancia: 5</li>
+                    <li>⭐ Mejor racha: 14 días</li>
+                </ul>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid var(--borde); margin: 20px 0;">
+
+            <div class="frase">
+                <h2>Frase del día</h2>
+                <p>"La disciplina supera a la motivación."</p>
+            </div>
+
+        </div>
+
+        <div class="widgets">
+            <div class="widget">
+                <h3>Racha actual</h3>
+                <p>5 días</p>
+            </div>
+
+            <div class="widget">
+                <h3>Temporizadores hoy</h3>
+                <p>3</p>
+            </div>
+
+            <div class="widget">
+                <h3>Tiempo enfocado</h3>
+                <p>2 h 35 m</p>
+            </div>
+
+            <div class="widget">
+                <h3>Tareas pendientes</h3>
+                <p>4</p>
+            </div>
+        </div>
+
+    </main>
+
+</div>
+
+<footer>
+    <a href="blog_beta.html">Blog</a>
+    <a href="faq_beta.html">FAQ</a>
+    <a href="nosotros_beta.html">Nosotros</a>
+    <a href="soporte_beta.html">Soporte</a>
+    <a href="curso_beta.html">Curso</a>
+    <a href="cv_beta.html">CV</a>
+</footer>
+
+<script>
+    // --- Requisito 1: Mostrar mensaje/alerta al cargar la página ---
+    window.addEventListener("DOMContentLoaded", () => {
+        alert("¡Bienvenido/a al Panel Principal de Señal Stellar!");
+    });
+
+    // --- Carga de datos de usuario ---
+    let usuario = localStorage.getItem("usuario");
+    let nombre = localStorage.getItem("nombre");
+    let apellido = localStorage.getItem("apellido");
+    let pais = localStorage.getItem("pais");
+
+    if (nombre) {
+        document.getElementById("bienvenido").textContent = nombre;
+        document.getElementById("usuario").textContent = usuario;
+        document.getElementById("nombre").textContent = nombre + " " + (apellido || "");
+        document.getElementById("pais").textContent = pais || "No especificado";
+
+        let inicialNombre = nombre.charAt(0) || "";
+        let inicialApellido = apellido ? apellido.charAt(0) : "";
+
+        document.getElementById("iniciales").textContent =
+            (inicialNombre + inicialApellido).toUpperCase();
+    }
+
+    // --- Requisito 3: Fecha y Hora en tiempo real con Date() y setInterval() ---
+    function actualizarReloj() {
+        const ahora = new Date();
+        const opcionesFecha = { year: 'numeric', month: 'short', day: 'numeric' };
+        const fechaFormateada = ahora.toLocaleDateString('es-ES', opcionesFecha);
+        const horaFormateada = ahora.toLocaleTimeString('es-ES');
+
+        document.getElementById("relojFecha").textContent = `${fechaFormateada} - ${horaFormateada}`;
+    }
+    
+    setInterval(actualizarReloj, 1000);
+    actualizarReloj(); // Ejecutar inmediatamente al inicio
+
+    // --- Requisito 4: Menú interactivo (Mostrar/Ocultar sección) ---
+    function toggleLogros() {
+        const lista = document.getElementById("listaLogros");
+        if (lista.style.display === "none") {
+            lista.style.display = "flex";
+        } else {
+            lista.style.display = "none";
+        }
+    }
+
+    // --- Requisito 6: Cambiar el tema de la página (Toggle CSS) ---
+    function alternarTema() {
+        document.body.classList.toggle("modo-claro");
+    }
+</script>
+
+</body>
+</html>

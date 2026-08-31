@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Señal Stellar - Expediente Profesional</title>
+<link rel="icon" type="image/png" href="logo_signal_stellar.png">
+<link rel="stylesheet" href="estilos_globales.css">
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    /* Header superior */
+    header {
+        background: var(--panel);
+        border-bottom: 1px solid var(--borde);
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .titulo h1 {
+        color: var(--dorado);
+        font-size: 24px;
+        margin: 0;
+        font-weight: normal;
+    }
+
+    .titulo p {
+        color: var(--texto-secundario);
+        font-size: 14px;
+        margin: 3px 0 0 0;
+    }
+
+    .perfil {
+        background: var(--panel-secundario);
+        border: 1px solid var(--dorado);
+        color: var(--dorado);
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    /* Layout general */
+    .contenedor {
+        display: flex;
+        flex: 1;
+    }
+
+    /* Contenido principal */
+    main {
+        flex: 1;
+        padding: 30px;
+        overflow-y: auto;
+    }
+
+    .cv-container {
+        background: var(--panel);
+        border: 1px solid var(--borde);
+        border-radius: 10px;
+        padding: 30px;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .header-cv {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        border-bottom: 1px solid var(--borde);
+        padding-bottom: 20px;
+        margin-bottom: 25px;
+    }
+
+    .header-cv h1 {
+        color: var(--dorado);
+        margin: 0 0 5px 0;
+        font-size: 26px;
+    }
+
+    .header-cv p {
+        color: var(--texto-secundario);
+        margin: 0;
+        font-size: 14px;
+    }
+
+    .seccion {
+        margin-bottom: 25px;
+    }
+
+    .seccion h2 {
+        color: var(--dorado);
+        font-size: 18px;
+        border-bottom: 1px solid var(--borde);
+        padding-bottom: 8px;
+        margin-bottom: 15px;
+    }
+
+    .item-cv {
+        margin-bottom: 15px;
+    }
+
+    .item-title {
+        font-weight: bold;
+        color: var(--texto);
+        display: block;
+        font-size: 16px;
+    }
+
+    .item-sub {
+        color: var(--dorado);
+        font-size: 13px;
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .item-cv p {
+        color: var(--texto-secundario);
+        margin: 0;
+        line-height: 1.5;
+        font-size: 14px;
+    }
+
+    /* Grilla de habilidades */
+    .skills-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .skill-tag {
+        background: var(--panel-secundario);
+        color: var(--dorado);
+        border: 1px solid var(--borde);
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 13px;
+    }
+
+    /* Footer */
+    footer {
+        background: var(--panel);
+        border-top: 1px solid var(--borde);
+        padding: 15px 30px;
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        flex-wrap: wrap;
+    }
+
+    footer a {
+        color: var(--texto-secundario);
+        text-decoration: none;
+        font-size: 14px;
+        transition: color 0.2s;
+    }
+
+    footer a:hover {
+        color: var(--dorado);
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="titulo">
+        <h1>SEÑAL-STELLAR</h1>
+        <p>Bienvenido, <span id="bienvenido"></span></p>
+    </div>
+
+    <div class="perfil">
+        <span id="iniciales">--</span>
+    </div>
+</header>
+
+<div class="contenedor">
+
+    <main>
+        <div class="cv-container">
+            <header class="header-cv">
+                <div>
+                    <h1>gabyav912</h1>
+                    <p>ID: STELLAR-UNIT-2026</p>
+                </div>
+                <div style="text-align: right; color: var(--texto-secundario); font-size: 14px;">
+                    Salta, Argentina<br>
+                    Disponibilidad: Full-Time
+                </div>
+            </header>
+
+            <section class="seccion">
+                <h2>Experiencia Laboral</h2>
+                <div class="item-cv">
+                    <span class="item-title">Desarrollador Junior - Proyecto Stellar Time</span>
+                    <span class="item-sub">Marzo 2026 - Presente</span>
+                    <p>Lideré el diseño de interfaces (UI/UX) y la lógica funcional del sistema de misiones estelares utilizando HTML5, CSS3 y JavaScript moderno.</p>
+                </div>
+            </section>
+
+            <section class="seccion">
+                <h2>Educación</h2>
+                <div class="item-cv">
+                    <span class="item-title">Técnico en Computación y Gestión</span>
+                    <span class="item-sub">Especialización en Sistemas</span>
+                    <p>Formación técnica en administración de redes, gestión de recursos tecnológicos y desarrollo de software aplicado.</p>
+                </div>
+            </section>
+
+            <section class="seccion">
+                <h2>Habilidades Técnicas</h2>
+                <div class="skills-grid">
+                    <span class="skill-tag">Python (Tkinter)</span>
+                    <span class="skill-tag">HTML5 / CSS3</span>
+                    <span class="skill-tag">JavaScript (ES6+)</span>
+                    <span class="skill-tag">Linux (Debian)</span>
+                    <span class="skill-tag">Figma UI/UX</span>
+                    <span class="skill-tag">Gestión de Redes</span>
+                </div>
+            </section>
+
+            <section class="seccion">
+                <h2>Proyectos Adicionales</h2>
+                <p style="color: var(--texto-secundario); margin: 0; line-height: 1.5; font-size: 14px;">
+                    <strong style="color: var(--texto);">Stellar Watch:</strong> Implementación de sistemas de monitoreo y diagnóstico de hardware para equipos portátiles.
+                </p>
+            </section>
+        </div>
+    </main>
+
+</div>
+
+<footer>
+    <a href="blog_beta.html">Blog</a>
+    <a href="faq_beta.html">FAQ</a>
+    <a href="nosotros_beta.html">Nosotros</a>
+    <a href="soporte_beta.html">Soporte</a>
+    <a href="curso_beta.html">Curso</a>
+    <a href="cv_beta.html" style="color: var(--dorado);">CV</a>
+</footer>
+
+<script>
+    let nombre = localStorage.getItem("nombre");
+    let apellido = localStorage.getItem("apellido");
+
+    if(nombre){
+        document.getElementById("bienvenido").textContent = nombre;
+        
+        let inicialNombre = nombre.charAt(0) || "";
+        let inicialApellido = apellido ? apellido.charAt(0) : "";
+        document.getElementById("iniciales").textContent =
+        (inicialNombre + inicialApellido).toUpperCase();
+    }
+</script>
+
+</body>
+</html>

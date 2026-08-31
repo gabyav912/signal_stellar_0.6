@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Señal Stellar - Ajustes</title>
+    <link rel="icon" type="image/png" href="logo_signal_stellar.png">
+    <link rel="stylesheet" href="estilos_globales.css">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.modo-claro {
+            background-color: #f4f5f7;
+            color: #222222;
+            --panel: #ffffff;
+            --panel-secundario: #e9ecef;
+            --borde: #cccccc;
+            --texto: #111111;
+            --texto-secundario: #555555;
+        }
+
+        header {
+            background: var(--panel, #1b1b1b);
+            border-bottom: 1px solid var(--borde, #333);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .titulo h1 {
+            color: var(--dorado, #d4af37);
+            font-size: 24px;
+            margin: 0;
+            font-weight: normal;
+        }
+
+        .contenedor {
+            display: flex;
+            flex: 1;
+        }
+
+        aside {
+            width: 260px;
+            background: var(--panel, #1b1b1b);
+            border-right: 1px solid var(--borde, #333);
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        aside a {
+            color: var(--texto, #fff);
+            text-decoration: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        aside a:hover, aside a.activo {
+            background: var(--panel-secundario, #242424);
+            color: var(--dorado, #d4af37);
+        }
+
+        main {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .encabezado-ajustes {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .encabezado-ajustes h1 {
+            color: var(--dorado, #d4af37);
+            font-size: 28px;
+            margin: 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .panel {
+            background: var(--panel, #1b1b1b);
+            border: 1px solid var(--borde, #333);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .panel h2 {
+            color: var(--dorado, #d4af37);
+            font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .campo {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .campo label {
+            font-size: 14px;
+            color: var(--texto-secundario, #aaa);
+        }
+
+        .campo select, input[type="color"] {
+            background: var(--panel-secundario, #242424);
+            border: 1px solid var(--borde, #444);
+            color: var(--texto, #fff);
+            padding: 8px;
+            border-radius: 6px;
+            width: 100%;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--dorado, #d4af37);
+            cursor: pointer;
+        }
+
+        .switch {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .botonesTema {
+            display: flex;
+            gap: 10px;
+        }
+
+        .botonesTema button {
+            flex: 1;
+            padding: 8px;
+            background: var(--panel-secundario, #242424);
+            border: 1px solid var(--borde, #444);
+            color: var(--texto, #fff);
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .botonesTema button.activo {
+            border-color: var(--dorado, #d4af37);
+            color: var(--dorado, #d4af37);
+            font-weight: bold;
+        }
+
+        .acciones-config {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 18px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn.guardar {
+            background: var(--dorado, #d4af37);
+            color: #000;
+        }
+
+        .btn.reiniciar {
+            background: transparent;
+            border: 1px solid #ff3b30;
+            color: #ff3b30;
+        }
+
+        .btn.cerrar-sesion {
+            background: #ff3b30;
+            color: #fff;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .preview-box {
+            display: flex;
+            gap: 15px;
+        }
+
+        .preview-card {
+            flex: 1;
+            background: var(--panel-secundario, #242424);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid var(--borde, #444);
+        }
+
+        .preview-display {
+            height: 50px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        footer {
+            background: var(--panel, #1b1b1b);
+            border-top: 1px solid var(--borde, #333);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        footer a {
+            color: var(--texto-secundario, #aaa);
+            text-decoration: none;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="titulo">
+        <h1>SEÑAL-STELLAR</h1>
+    </div>
+</header>
+
+<div class="contenedor">
+
+
+    <main>
+        <div class="encabezado-ajustes">
+            <div>
+                <h1>Ajustes</h1>
+                <p style="color: var(--texto-secundario); margin-top: 5px;">Personaliza Señal Stellar a tu gusto.</p>
+            </div>
+            <div class="acciones-config">
+                <button class="btn reiniciar" onclick="restablecerConfiguracion()">Restablecer</button>
+                <button class="btn guardar" onclick="guardarConfiguracion()">Guardar cambios</button>
+            </div>
+        </div>
+
+        <div class="grid">
+            <!-- PANEL: COLORES -->
+            <div class="panel">
+                <h2>Colores del temporizador</h2>
+                <div class="campo">
+                    <label for="color-accion">Color "Acción"</label>
+                    <input type="color" id="color-accion" value="#ff3b30">
+                </div>
+                <div class="campo">
+                    <label for="color-break">Color "Break"</label>
+                    <input type="color" id="color-break" value="#00c853">
+                </div>
+            </div>
+
+            <!-- PANEL: TIEMPOS -->
+            <div class="panel">
+                <h2>Tiempos</h2>
+                <div class="campo">
+                    <label for="tiempo-pomodoro">Tiempo Pomodoro</label>
+                    <select id="tiempo-pomodoro"></select>
+                </div>
+                <div class="campo">
+                    <label for="tiempo-break">Tiempo Break</label>
+                    <select id="tiempo-break"></select>
+                </div>
+                <div class="campo">
+                    <label for="tiempo-descanso">Tiempo Descanso</label>
+                    <select id="tiempo-descanso"></select>
+                </div>
+                <div class="campo">
+                    <label for="repeticiones-pomodoro">Cantidad de Pomodoros</label>
+                    <select id="repeticiones-pomodoro">
+                        <option value="2">2 Pomodoros</option>
+                        <option value="3">3 Pomodoros</option>
+                        <option value="4">4 Pomodoros (Recomendado)</option>
+                        <option value="5">5 Pomodoros</option>
+                        <option value="6">6 Pomodoros</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- PANEL: SONIDO -->
+            <div class="panel">
+                <h2>Sonido</h2>
+                <div class="campo">
+                    <label for="sonido-alarma">Sonido de la alarma</label>
+                    <select id="sonido-alarma"></select>
+                </div>
+                <div class="campo">
+                    <label for="volumen-alarma">Volumen</label>
+                    <input type="range" id="volumen-alarma" min="0" max="100" value="80">
+                    <div id="volumen-valor" style="text-align:right; font-size:12px; color:var(--texto-secundario);">80%</div>
+                </div>
+                <div class="switch">
+                    <span>Activar sonido</span>
+                    <input type="checkbox" id="activar-sonido" checked>
+                </div>
+            </div>
+
+            <!-- PANEL: APARIENCIA -->
+            <div class="panel">
+                <h2>Apariencia</h2>
+                <div class="campo">
+                    <label>Tema de la aplicación</label>
+                    <div class="botonesTema" id="tema-group">
+                        <button type="button" data-value="oscuro">Oscuro</button>
+                        <button type="button" data-value="claro">Claro</button>
+                    </div>
+                </div>
+                <div class="campo">
+                    <label>Estilo del temporizador</label>
+                    <div class="botonesTema" id="estilo-group">
+                        <button type="button" data-value="circular">Circular</button>
+                        <button type="button" data-value="barra">Barra</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PANEL: VISTA PREVIA -->
+            <div class="panel">
+                <h2>Vista previa</h2>
+                <div class="preview-box">
+                    <div class="preview-card">
+                        <h4 style="margin:0 0 10px 0;">Acción</h4>
+                        <div id="preview-accion" class="preview-display">ACCIÓN</div>
+                    </div>
+                    <div class="preview-card">
+                        <h4 style="margin:0 0 10px 0;">Break</h4>
+                        <div id="preview-break" class="preview-display">BREAK</div>
+                    </div>
+                </div>
+                <button class="btn cerrar-sesion" onclick="cerrarSesion()">Cerrar sesión</button>
+            </div>
+        </div>
+    </main>
+</div>
+
+<footer>
+    <a href="blog_beta.html">Blog</a>
+    <a href="faq_beta.html">FAQ</a>
+    <a href="nosotros_beta.html">Nosotros</a>
+    <a href="soporte_beta.html">Soporte</a>
+</footer>
+
+<script>
+    const defaultConfig = {
+        colorAccion: "#ff3b30",
+        colorBreak: "#00c853",
+        tiempoPomodoro: "25",
+        tiempoBreak: "5",
+        tiempoDescanso: "15",
+        repeticionesPomodoro: "4",
+        sonidoAlarma: "ascensor.ogg",
+        volumenAlarma: 80,
+        activarSonido: true,
+        tema: "oscuro",
+        estiloTemporizador: "circular"
+    };
+
+    const configKey = "senalStellarAjustes";
+    let config = loadConfig();
+
+    const tiempoPomodoro = document.getElementById("tiempo-pomodoro");
+    const tiempoBreak = document.getElementById("tiempo-break");
+    const tiempoDescanso = document.getElementById("tiempo-descanso");
+    const repeticionesPomodoro = document.getElementById("repeticiones-pomodoro");
+    const sonidoAlarma = document.getElementById("sonido-alarma");
+    const volumen = document.getElementById("volumen-alarma");
+    const volumenValor = document.getElementById("volumen-valor");
+    const colorAccion = document.getElementById("color-accion");
+    const colorBreak = document.getElementById("color-break");
+    const previewAccion = document.getElementById("preview-accion");
+    const previewBreak = document.getElementById("preview-break");
+
+    const tiempos = [["5", "5 min"], ["10", "10 min"], ["15", "15 min"], ["25", "25 min"], ["30", "30 min"], ["45", "45 min"], ["60", "60 min"]];
+    const sonidos = [["ascensor.ogg", "Ascensor"], ["cristal.ogg", "Cristal"], ["stellar.ogg", "Stellar"]];
+
+    function cargarSelect(select, datos) {
+        select.innerHTML = "";
+        datos.forEach(item => {
+            const option = document.createElement("option");
+            option.value = item[0];
+            option.textContent = item[1];
+            select.appendChild(option);
+        });
+    }
+
+    cargarSelect(tiempoPomodoro, tiempos);
+    cargarSelect(tiempoBreak, tiempos);
+    cargarSelect(tiempoDescanso, tiempos);
+    cargarSelect(sonidoAlarma, sonidos);
+
+    // Cargar valores guardados
+    colorAccion.value = config.colorAccion;
+    colorBreak.value = config.colorBreak;
+    tiempoPomodoro.value = config.tiempoPomodoro;
+    tiempoBreak.value = config.tiempoBreak;
+    tiempoDescanso.value = config.tiempoDescanso;
+    repeticionesPomodoro.value = config.repeticionesPomodoro;
+    sonidoAlarma.value = config.sonidoAlarma;
+    volumen.value = config.volumenAlarma;
+    volumenValor.textContent = config.volumenAlarma + "%";
+    document.getElementById("activar-sonido").checked = config.activarSonido;
+
+    actualizarVista();
+    aplicarTema();
+
+    colorAccion.addEventListener("input", actualizarVista);
+    colorBreak.addEventListener("input", actualizarVista);
+    volumen.addEventListener("input", function() {
+        volumenValor.textContent = this.value + "%";
+    });
+
+    document.querySelectorAll("#tema-group button").forEach(btn => {
+        btn.onclick = function() {
+            config.tema = btn.dataset.value;
+            aplicarTema();
+        };
+    });
+
+    document.querySelectorAll("#estilo-group button").forEach(btn => {
+        btn.onclick = function() {
+            document.querySelectorAll("#estilo-group button").forEach(b => b.classList.remove("activo"));
+            btn.classList.add("activo");
+            config.estiloTemporizador = btn.dataset.value;
+        };
+    });
+
+    function actualizarVista() {
+        previewAccion.style.background = colorAccion.value;
+        previewBreak.style.background = colorBreak.value;
+    }
+
+    function aplicarTema() {
+        if (config.tema === "claro") {
+            document.body.classList.add("modo-claro");
+        } else {
+            document.body.classList.remove("modo-claro");
+        }
+
+        document.querySelectorAll("#tema-group button").forEach(btn => {
+            btn.classList.toggle("activo", btn.dataset.value === config.tema);
+        });
+
+        document.querySelectorAll("#estilo-group button").forEach(btn => {
+            btn.classList.toggle("activo", btn.dataset.value === config.estiloTemporizador);
+        });
+    }
+
+    function guardarConfiguracion() {
+        config.colorAccion = colorAccion.value;
+        config.colorBreak = colorBreak.value;
+        config.tiempoPomodoro = tiempoPomodoro.value;
+        config.tiempoBreak = tiempoBreak.value;
+        config.tiempoDescanso = tiempoDescanso.value;
+        config.repeticionesPomodoro = repeticionesPomodoro.value;
+        config.sonidoAlarma = sonidoAlarma.value;
+        config.volumenAlarma = Number(volumen.value);
+        config.activarSonido = document.getElementById("activar-sonido").checked;
+
+        localStorage.setItem(configKey, JSON.stringify(config));
+        alert("Configuración guardada correctamente.");
+    }
+
+    function restablecerConfiguracion() {
+        if (!confirm("¿Deseas restablecer la configuración por defecto?")) return;
+        localStorage.removeItem(configKey);
+        config = { ...defaultConfig };
+        location.reload();
+    }
+
+    function loadConfig() {
+        const datos = localStorage.getItem(configKey);
+        if (datos) {
+            try { return { ...defaultConfig, ...JSON.parse(datos) }; } catch (e) { return { ...defaultConfig }; }
+        }
+        return { ...defaultConfig };
+    }
+
+    function cerrarSesion() {
+        if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
+            localStorage.removeItem("usuario");
+            localStorage.removeItem("nombre");
+            window.location.href = "registro_beta.html";
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Señal Stellar - Sobre Nosotros</title>
+    <link rel="icon" type="image/png" href="logo_signal_stellar.png">
+    <link rel="stylesheet" href="estilos_globales.css">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header superior */
+        header {
+            background: var(--panel);
+            border-bottom: 1px solid var(--borde);
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .titulo h1 {
+            color: var(--dorado);
+            font-size: 24px;
+            margin: 0;
+            font-weight: normal;
+        }
+
+        .titulo p {
+            color: var(--texto-secundario);
+            font-size: 14px;
+            margin: 3px 0 0 0;
+        }
+
+        .perfil {
+            background: var(--panel-secundario);
+            border: 1px solid var(--dorado);
+            color: var(--dorado);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* Contenedor libre sin barra lateral */
+        main.nosotros-container {
+            flex: 1;
+            max-width: 850px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        .card-equipo {
+            background: var(--panel);
+            border: 1px solid var(--borde);
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+        .img-tech {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border: 1px solid var(--borde);
+        }
+
+        .card-equipo h2 {
+            color: var(--dorado);
+            font-size: 20px;
+            margin: 0 0 12px 0;
+        }
+
+        .card-equipo p {
+            color: var(--texto-secundario);
+            line-height: 1.6;
+            font-size: 15px;
+            margin: 0 0 20px 0;
+        }
+
+        .highlight {
+            color: var(--dorado);
+            font-weight: bold;
+        }
+
+        .divisor {
+            border: 0;
+            border-top: 1px solid var(--borde);
+            margin: 25px 0;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--panel);
+            border-top: 1px solid var(--borde);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        footer a {
+            color: var(--texto-secundario);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        footer a:hover {
+            color: var(--dorado);
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="titulo">
+        <h1>SEÑAL-STELLAR</h1>
+        <p>Sobre Nosotros</p>
+    </div>
+
+    <div class="perfil">
+        <span id="iniciales">--</span>
+    </div>
+</header>
+
+<main class="nosotros-container">
+    <div class="card-equipo">
+        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800" alt="Equipo Stellar" class="img-tech">
+        
+        <h2>Nuestra Misión</h2>
+        <p>Somos un equipo de estudiantes comprometidos con la mejora de la productividad estudiantil.<br>
+        Nuestra meta es crear herramientas <span class="highlight">sencillas pero potentes</span>.</p>
+        
+        <hr class="divisor">
+
+        <h2>El Proyecto</h2>
+        <p>Señal stellar nació en el aula como un trabajo de la materia <span class="highlight">"Tecnología de Gestión"</span>.<br>
+        Buscamos aplicar conocimientos de programación y administración de tiempo en un entorno estelar.</p>
+    </div>
+</main>
+
+<footer>
+    <a href="dashboard_beta.html">Volver al Panel</a>
+    <a href="blog_beta.html">Blog</a>
+    <a href="faq_beta.html">FAQ</a>
+    <a href="nosotros_beta.html" style="color: var(--dorado);">Nosotros</a>
+    <a href="soporte_beta.html">Soporte</a>
+    <a href="curso_beta.html">Curso</a>
+    <a href="cv_beta.html">CV</a>
+</footer>
+
+<script>
+    let nombre = localStorage.getItem("nombre");
+    let apellido = localStorage.getItem("apellido");
+
+    if(nombre){
+        let inicialNombre = nombre.charAt(0) || "";
+        let inicialApellido = apellido ? apellido.charAt(0) : "";
+        document.getElementById("iniciales").textContent =
+        (inicialNombre + inicialApellido).toUpperCase();
+    }
+</script>
+
+</body>
+</html>

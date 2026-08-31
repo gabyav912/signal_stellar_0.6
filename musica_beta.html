@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Señal Stellar - Música</title>
+    <link rel="icon" type="image/png" href="logo_signal_stellar.png">
+    <link rel="stylesheet" href="estilos_globales.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.modo-claro {
+            background-color: #f4f5f7;
+            color: #222222;
+            --panel: #ffffff;
+            --panel-secundario: #e9ecef;
+            --borde: #cccccc;
+            --texto: #111111;
+            --texto-secundario: #555555;
+        }
+
+        header {
+            background: var(--panel, #1b1b1b);
+            border-bottom: 1px solid var(--borde, #333);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .titulo h1 {
+            color: var(--dorado, #d4af37);
+            font-size: 24px;
+            margin: 0;
+            font-weight: normal;
+        }
+
+        .contenedor {
+            display: flex;
+            flex: 1;
+        }
+
+        aside {
+            width: 260px;
+            background: var(--panel, #1b1b1b);
+            border-right: 1px solid var(--borde, #333);
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        aside a {
+            color: var(--texto, #fff);
+            text-decoration: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        aside a:hover, aside a.activo {
+            background: var(--panel-secundario, #242424);
+            color: var(--dorado, #d4af37);
+        }
+
+        main {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .main-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .encabezado-modulo {
+            margin-bottom: 20px;
+        }
+
+        .encabezado-modulo h1 {
+            color: var(--dorado, #d4af37);
+            font-size: 32px;
+            font-weight: normal;
+            margin: 0;
+        }
+
+        .descripcion {
+            color: var(--texto-secundario, #aaa);
+            font-size: 16px;
+            margin-top: 5px;
+        }
+
+        .grid-musica {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .panel {
+            background: var(--panel, #1b1b1b);
+            border: 1px solid var(--borde, #333);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .panel h2 {
+            color: var(--dorado, #d4af37);
+            font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .lista-musica {
+            background: var(--panel-secundario, #242424);
+            border-radius: 8px;
+            padding: 10px;
+            min-height: 220px;
+            max-height: 320px;
+            overflow-y: auto;
+            border: 1px solid var(--borde, #333);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .item-musica {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: var(--panel, #1b1b1b);
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: background 0.2s, border-color 0.2s;
+            user-select: none;
+        }
+
+        .item-musica:hover {
+            background: var(--panel-secundario, #2a2a2a);
+        }
+
+        .item-musica.seleccionado {
+            border-color: var(--dorado, #d4af37);
+            background: rgba(212, 175, 55, 0.15);
+        }
+
+        .item-musica .numero {
+            font-weight: bold;
+            color: var(--texto-secundario, #aaa);
+            min-width: 20px;
+            font-size: 14px;
+        }
+
+        .item-musica .play {
+            background: var(--dorado, #d4af37);
+            border: none;
+            color: #000;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 0;
+            transition: transform 0.1s, background 0.2s;
+        }
+
+        .item-musica .play:hover {
+            transform: scale(1.1);
+            background: #ffe066;
+        }
+
+        .item-musica .nombre {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 15px;
+            color: var(--texto, #fff);
+        }
+
+        .botones-panel {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .botones-panel .btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 6px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn.guardar {
+            background: var(--dorado, #d4af37);
+            color: #000;
+        }
+
+        .btn.reiniciar {
+            background: transparent;
+            border: 1px solid #ff3b30;
+            color: #ff3b30;
+        }
+
+        .panel-opciones {
+            margin-top: 20px;
+        }
+
+        .informacion-archivo {
+            background: var(--panel-secundario, #242424);
+            padding: 12px 18px;
+            border-radius: 8px;
+            border: 1px solid var(--borde, #333);
+            margin-bottom: 15px;
+            font-size: 15px;
+            color: var(--texto, #fff);
+        }
+
+        .informacion-archivo span {
+            color: var(--dorado, #d4af37);
+            font-weight: bold;
+        }
+
+        .acciones-cancion {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .acciones-cancion .btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--borde, #444);
+            background: var(--panel-secundario, #242424);
+            color: var(--texto, #fff);
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .acciones-cancion .btn-danger {
+            background: #ff3b30;
+            color: white;
+            border: none;
+        }
+
+        .acciones-cancion .btn-danger:hover {
+            background: #d32f2f;
+        }
+
+        footer {
+            background: var(--panel, #1b1b1b);
+            border-top: 1px solid var(--borde, #333);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        footer a {
+            color: var(--texto-secundario, #aaa);
+            text-decoration: none;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="titulo">
+        <h1>SEÑAL-STELLAR</h1>
+    </div>
+</header>
+
+<div class="contenedor">
+
+
+    <main>
+        <div class="main-container">
+            <div class="encabezado-modulo">
+                <h1>Música</h1>
+                <p class="descripcion">Gestiona las listas de reproducción para las sesiones de trabajo y descansos.</p>
+            </div>
+
+            <div class="grid-musica">
+                <!-- MÚSICA DE ACCIÓN -->
+                <div class="panel">
+                    <h2>Música de "Acción"</h2>
+                    <div class="lista-musica" id="listaAccion"></div>
+                    <div class="botones-panel">
+                        <button class="btn guardar" id="agregarAccion">Agregar</button>
+                        <button class="btn reiniciar" id="eliminarAccion">Eliminar</button>
+                    </div>
+                </div>
+
+                <!-- MÚSICA DE BREAK -->
+                <div class="panel">
+                    <h2>Música de "Break"</h2>
+                    <div class="lista-musica" id="listaBreak"></div>
+                    <div class="botones-panel">
+                        <button class="btn guardar" id="agregarBreak">Agregar</button>
+                        <button class="btn reiniciar" id="eliminarBreak">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PANEL DE OPCIONES -->
+            <div class="panel panel-opciones">
+                <h2>Opciones de la canción seleccionada</h2>
+                <div class="informacion-archivo">
+                    Archivo seleccionado: <span id="archivoSeleccionado">Ninguno</span>
+                </div>
+                <div class="acciones-cancion">
+                    <button class="btn" id="escuchar">▶ Escuchar</button>
+                    <button class="btn" id="subir">▲ Subir</button>
+                    <button class="btn" id="bajar">▼ Bajar</button>
+                    <button class="btn btn-danger" id="eliminarSeleccion">🗑 Eliminar</button>
+                </div>
+            </div>
+
+            <!-- INPUTS OCULTOS -->
+            <input type="file" id="inputAccion" accept=".mp3,.wav,.ogg,.aac,.m4a,.flac" hidden multiple>
+            <input type="file" id="inputBreak" accept=".mp3,.wav,.ogg,.aac,.m4a,.flac" hidden multiple>
+
+            <!-- AUDIO PARA REPRODUCCIÓN -->
+            <audio id="reproductor"></audio>
+        </div>
+    </main>
+</div>
+
+<footer>
+    <a href="blog_beta.html">Blog</a>
+    <a href="faq_beta.html">FAQ</a>
+    <a href="nosotros_beta.html">Nosotros</a>
+    <a href="soporte_beta.html">Soporte</a>
+</footer>
+
+<script>
+// --- CARGAR PREFERENCIA DE TEMA DESDE LOCALSTORAGE ---
+(function aplicarTemaGuardado() {
+    const configRaw = localStorage.getItem("senalStellarAjustes");
+    if (configRaw) {
+        try {
+            const config = JSON.parse(configRaw);
+            if (config.tema === "claro") {
+                document.body.classList.add("modo-claro");
+            }
+        } catch (e) {
+            console.error("Error al leer tema guardado:", e);
+        }
+    }
+})();
+
+const listaAccion = document.getElementById("listaAccion");
+const listaBreak = document.getElementById("listaBreak");
+
+const inputAccion = document.getElementById("inputAccion");
+const inputBreak = document.getElementById("inputBreak");
+
+const agregarAccion = document.getElementById("agregarAccion");
+const agregarBreak = document.getElementById("agregarBreak");
+
+const archivoSeleccionado = document.getElementById("archivoSeleccionado");
+const reproductor = document.getElementById("reproductor");
+
+let elementoSeleccionado = null;
+let botonPlayActual = null;
+let elementoEnReproduccion = null;
+
+// Base de Datos en IndexedDB
+let db;
+const request = indexedDB.open("StellarMusicDB", 1);
+
+request.onupgradeneeded = function(e) {
+    db = e.target.result;
+    if (!db.objectStoreNames.contains("canciones")) {
+        db.createObjectStore("canciones", { keyPath: "id", autoIncrement: true });
+    }
+};
+
+request.onsuccess = function(e) {
+    db = e.target.result;
+    cargarCancionesGuardadas();
+};
+
+agregarAccion.onclick = () => inputAccion.click();
+agregarBreak.onclick = () => inputBreak.click();
+
+inputAccion.onchange = function() {
+    procesarArchivos(this.files, "accion", listaAccion);
+    this.value = "";
+};
+
+inputBreak.onchange = function() {
+    procesarArchivos(this.files, "break", listaBreak);
+    this.value = "";
+};
+
+function procesarArchivos(listaArchivos, tipo, listaDestino) {
+    for (let archivo of listaArchivos) {
+        if (!archivo.type.startsWith("audio/")) {
+            alert("Ese archivo no es un audio válido.");
+            continue;
+        }
+
+        const transaction = db.transaction(["canciones"], "readwrite");
+        const store = transaction.objectStore("canciones");
+        
+        const nuevaCancion = {
+            nombre: archivo.name,
+            tipo: tipo,
+            archivo: archivo 
+        };
+
+        const addRequest = store.add(nuevaCancion);
+        addRequest.onsuccess = function(e) {
+            const idGenerado = e.target.result;
+            const url = URL.createObjectURL(archivo);
+            crearElemento(listaDestino, archivo.name, url, idGenerado);
+            renumerar(listaDestino);
+            notificarCambiosAlTemporizador();
+        };
+    }
+}
+
+function crearElemento(lista, nombre, url, idDB) {
+    const fila = document.createElement("div");
+    fila.className = "item-musica";
+    fila.dataset.audio = url;
+    fila.dataset.idDb = idDB;
+
+    const numero = document.createElement("span");
+    numero.className = "numero";
+
+    const play = document.createElement("button");
+    play.className = "play";
+    play.textContent = "▶";
+
+    const texto = document.createElement("span");
+    texto.className = "nombre";
+    texto.textContent = nombre;
+
+    fila.appendChild(numero);
+    fila.appendChild(play);
+    fila.appendChild(texto);
+    lista.appendChild(fila);
+
+    fila.onclick = function(e) {
+        if (e.target === play) return;
+        document.querySelectorAll(".item-musica").forEach(x => x.classList.remove("seleccionado"));
+        fila.classList.add("seleccionado");
+        elementoSeleccionado = fila;
+        archivoSeleccionado.textContent = nombre;
+    };
+
+    play.onclick = function(e) {
+        e.stopPropagation();
+        reproducirElemento(fila);
+    };
+}
+
+// LÓGICA DE REPRODUCCIÓN Y AVANCE AUTOMÁTICO
+function reproducirElemento(fila) {
+    const url = fila.dataset.audio;
+    const play = fila.querySelector(".play");
+
+    if (reproductor.src !== url) {
+        reproductor.src = url;
+        reproductor.play().catch(err => console.log("Permiso de reproducción requerido"));
+        if (botonPlayActual) botonPlayActual.textContent = "▶";
+        play.textContent = "■";
+        botonPlayActual = play;
+        elementoEnReproduccion = fila;
+    } else {
+        if (reproductor.paused) {
+            reproductor.play().catch(err => console.log("Error al reproducir"));
+            play.textContent = "■";
+        } else {
+            reproductor.pause(); // Pausa manual
+            play.textContent = "▶";
+        }
+    }
+}
+
+// EVENTO DE CONTINUIDAD: Al terminar salta a la siguiente canción automáticamente
+reproductor.onended = function() {
+    if (botonPlayActual) botonPlayActual.textContent = "▶";
+    
+    if (elementoEnReproduccion) {
+        let siguiente = elementoEnReproduccion.nextElementSibling;
+        
+        // Si no hay siguiente, vuelve a la primera canción de la lista (Bucle)
+        if (!siguiente) {
+            const listaPadre = elementoEnReproduccion.parentNode;
+            siguiente = listaPadre.querySelector(".item-musica");
+        }
+        
+        if (siguiente) {
+            reproducirElemento(siguiente);
+        }
+    }
+};
+
+function renumerar(lista) {
+    const filas = lista.querySelectorAll(".item-musica");
+    filas.forEach((fila, indice) => {
+        fila.querySelector(".numero").textContent = indice + 1;
+    });
+}
+
+function cargarCancionesGuardadas() {
+    const transaction = db.transaction(["canciones"], "readonly");
+    const store = transaction.objectStore("canciones");
+    const cursorRequest = store.openCursor();
+
+    cursorRequest.onsuccess = function(e) {
+        const cursor = e.target.result;
+        if (cursor) {
+            const cancion = cursor.value;
+            const url = URL.createObjectURL(cancion.archivo);
+            const listaDestino = cancion.tipo === "accion" ? listaAccion : listaBreak;
+            
+            crearElemento(listaDestino, cancion.nombre, url, cancion.id);
+            cursor.continue();
+        } else {
+            renumerar(listaAccion);
+            renumerar(listaBreak);
+            notificarCambiosAlTemporizador();
+        }
+    };
+}
+
+function eliminarDeBaseDatos(id) {
+    const transaction = db.transaction(["canciones"], "readwrite");
+    const store = transaction.objectStore("canciones");
+    store.delete(Number(id));
+}
+
+function notificarCambiosAlTemporizador() {
+    const listaIdsAccion = Array.from(listaAccion.children).map(el => el.dataset.idDb);
+    const listaIdsBreak = Array.from(listaBreak.children).map(el => el.dataset.idDb);
+    
+    localStorage.setItem("listaMusicaEstructura", JSON.stringify({
+        accion: listaIdsAccion,
+        break: listaIdsBreak
+    }));
+}
+
+// BOTONES DEL PANEL INFERIOR
+const botonEscuchar = document.getElementById("escuchar");
+const botonSubir = document.getElementById("subir");
+const botonBajar = document.getElementById("bajar");
+const botonEliminar = document.getElementById("eliminarSeleccion");
+
+botonEscuchar.onclick = function() {
+    if (!elementoSeleccionado) { alert("Seleccione una canción."); return; }
+    reproducirElemento(elementoSeleccionado);
+};
+
+botonSubir.onclick = function() {
+    if (!elementoSeleccionado) { alert("Seleccione una canción."); return; }
+    const anterior = elementoSeleccionado.previousElementSibling;
+    if (anterior) {
+        elementoSeleccionado.parentNode.insertBefore(elementoSeleccionado, anterior);
+        renumerar(elementoSeleccionado.parentNode);
+        notificarCambiosAlTemporizador();
+    }
+};
+
+botonBajar.onclick = function() {
+    if (!elementoSeleccionado) { alert("Seleccione una canción."); return; }
+    const siguiente = elementoSeleccionado.nextElementSibling;
+    if (siguiente) {
+        elementoSeleccionado.parentNode.insertBefore(siguiente, elementoSeleccionado);
+        renumerar(elementoSeleccionado.parentNode);
+        notificarCambiosAlTemporizador();
+    }
+};
+
+botonEliminar.onclick = function() {
+    if (!elementoSeleccionado) { alert("Seleccione una canción."); return; }
+
+    if (reproductor.src === elementoSeleccionado.dataset.audio) {
+        reproductor.pause();
+        reproductor.removeAttribute("src");
+        if (botonPlayActual) botonPlayActual.textContent = "▶";
+    }
+
+    eliminarDeBaseDatos(elementoSeleccionado.dataset.idDb);
+
+    const lista = elementoSeleccionado.parentNode;
+    lista.removeChild(elementoSeleccionado);
+    renumerar(lista);
+    
+    archivoSeleccionado.textContent = "Ninguno";
+    elementoSeleccionado = null;
+    notificarCambiosAlTemporizador();
+};
+
+document.getElementById("eliminarAccion").onclick = function() {
+    if (elementoSeleccionado && elementoSeleccionado.parentNode.id === "listaAccion") {
+        botonEliminar.click();
+    } else {
+        alert("Seleccione una canción del panel Acción.");
+    }
+};
+
+document.getElementById("eliminarBreak").onclick = function() {
+    if (elementoSeleccionado && elementoSeleccionado.parentNode.id === "listaBreak") {
+        botonEliminar.click();
+    } else {
+        alert("Seleccione una canción del panel Break.");
+    }
+};
+
+// CONTROL REMOTO DESDE EL TEMPORIZADOR CON CORTE BRUTO
+window.addEventListener('storage', function(e) {
+    if (e.key === 'senalStellarComandoMusica' && e.newValue) {
+        try {
+            const comando = JSON.parse(e.newValue);
+            
+            if (comando.estado === 'play') {
+                const listaId = (comando.tipo === 'accion') ? 'listaAccion' : 'listaBreak';
+                if (!elementoEnReproduccion || elementoEnReproduccion.parentNode.id !== listaId) {
+                    const primerItem = document.querySelector(`#${listaId} .item-musica`);
+                    if (primerItem) {
+                        reproducirElemento(primerItem);
+                    }
+                } else if (reproductor.paused) {
+                    reproducirElemento(elementoEnReproduccion);
+                }
+            } else if (comando.estado === 'stop') {
+                if (reproductor) {
+                    reproductor.pause();
+                    if (botonPlayActual) botonPlayActual.textContent = "▶";
+                }
+            }
+        } catch (err) {
+            console.error("Error al procesar orden remota:", err);
+        }
+    }
+});
+</script>
+</body>
+</html>
