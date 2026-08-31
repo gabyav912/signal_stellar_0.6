@@ -1,1 +1,0 @@
-# signal_stellar_0.6
