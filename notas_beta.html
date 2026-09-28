@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEÑAL-STELLAR | Bloc de Notas</title>
+    <link rel="icon" type="image/png" href="logo_signal_stellar.png">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        stellar: {
+                            bg: '#141517',
+                            surface: '#1b1c20',
+                            card: '#22242a',
+                            cardHover: '#2a2d35',
+                            border: '#2e323b',
+                            gold: '#f3c152',
+                            goldBright: '#ffe082',
+                            green: '#2ecc71',
+                            greenHover: '#27ae60',
+                            textLight: '#f1f3f5',
+                            textMuted: '#9aa0a6'
+                        }
+                    },
+                    fontFamily: {
+                        title: ['Cinzel', 'Georgia', 'serif'],
+                        body: ['Inter', 'sans-serif'],
+                        editor: ['Merriweather', 'Georgia', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 7px;
+            height: 7px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #141517;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2e323b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f3c152;
+        }
+
+        /* Green Pill Buttons (Matching exact screenshot green buttons) */
+        .btn-stellar-pill {
+            background-color: #2ecc71;
+            color: #052914;
+            font-weight: 700;
+            border-radius: 9999px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-stellar-pill:hover {
+            background-color: #34d399;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(46, 204, 113, 0.35);
+        }
+
+        /* Sidebar Nav Pills */
+        .nav-pill-btn {
+            background-color: #2ecc71;
+            color: #063118;
+            font-weight: 700;
+            border-radius: 9999px;
+            padding: 10px 20px;
+            width: 100%;
+            text-align: left;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 3px 10px rgba(46, 204, 113, 0.15);
+        }
+        .nav-pill-btn:hover {
+            background-color: #34d399;
+            transform: translateX(4px);
+        }
+        .nav-pill-btn.inactive {
+            background-color: #22242a;
+            color: #f3c152;
+            border: 1px solid #2e323b;
+            box-shadow: none;
+            font-weight: 600;
+        }
+        .nav-pill-btn.inactive:hover {
+            background-color: #2a2d35;
+            color: #ffe082;
+            border-color: #f3c152;
+        }
+
+        .gold-glow {
+            text-shadow: 0 0 12px rgba(243, 193, 82, 0.3);
+        }
+
+        /* Category Badge Colors */
+        .badge-personal { background-color: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+        .badge-trabajo { background-color: rgba(234, 179, 8, 0.15); color: #facc15; border: 1px solid rgba(234, 179, 8, 0.3); }
+        .badge-ideas { background-color: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+        .badge-tareas { background-color: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+    </style>
+</head>
+<body class="bg-stellar-bg text-stellar-textLight font-body min-h-screen flex flex-col antialiased selection:bg-stellar-gold selection:text-black">
+
+    <!-- Top Header Bar -->
+    <header class="border-b border-stellar-border bg-stellar-surface px-4 md:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4 sticky top-0 z-40 shadow-md">
+        <div class="flex items-center gap-4">
+            <button id="toggleMobileMenu" class="md:hidden text-stellar-gold text-xl focus:outline-none p-1">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div>
+                <h1 class="font-title text-xl md:text-3xl font-black text-stellar-gold tracking-wider gold-glow uppercase flex items-center gap-2">
+                    SEÑAL-STELLAR
+                </h1>
+                <p class="text-xs text-stellar-textMuted font-medium flex items-center gap-2">
+                    <span>Bienvenido, Esteban Gabriel</span>
+                    <span class="text-stellar-border">&bull;</span>
+                    <span class="text-stellar-gold font-mono" id="headerClock">28 sept 2026 - 11:28:44</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Right Header Status Controls -->
+        <div class="flex items-center gap-3">
+            <div id="saveIndicator" class="bg-stellar-card px-3 py-1.5 rounded-full border border-stellar-border flex items-center gap-2 text-xs font-medium text-stellar-textMuted">
+                <span class="w-2 h-2 rounded-full bg-stellar-green animate-pulse"></span>
+                <span id="saveStatusText">Guardado en tiempo real</span>
+            </div>
+            
+            <button id="btnNewNoteTop" class="btn-stellar-pill px-5 py-2 text-xs font-bold uppercase tracking-wider">
+                <i class="fa-solid fa-plus text-sm"></i> Nueva Nota
+            </button>
+
+            <div class="w-9 h-9 rounded-full bg-stellar-gold/10 border border-stellar-gold text-stellar-gold flex items-center justify-center font-title font-bold text-sm">
+                EA
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Application Layout -->
+    <div class="flex-1 flex overflow-hidden relative">
+        
+        <!-- Left Navigation Sidebar (SEÑAL-STELLAR Menu Style) -->
+        <aside id="sidebar" class="w-64 bg-stellar-surface border-r border-stellar-border p-4 flex flex-col justify-between shrink-0 transition-all duration-300 absolute md:relative z-30 h-[calc(100vh-65px)] -translate-x-full md:translate-x-0">
+            <div class="space-y-3">
+                <p class="text-[11px] font-bold text-stellar-textMuted uppercase tracking-widest px-2 mb-2">Categorías</p>
+                
+                <button onclick="setCategoryFilter('all')" id="cat-all" class="nav-pill-btn">
+                    <i class="fa-solid fa-layer-group text-sm"></i>
+                    <span>Todas las Notas</span>
+                    <span id="count-all" class="ml-auto text-xs bg-black/30 px-2 py-0.5 rounded-full">0</span>
+                </button>
+
+                <button onclick="setCategoryFilter('pinned')" id="cat-pinned" class="nav-pill-btn inactive">
+                    <i class="fa-solid fa-thumbtack text-sm"></i>
+                    <span>Fijadas</span>
+                    <span id="count-pinned" class="ml-auto text-xs bg-black/30 px-2 py-0.5 rounded-full">0</span>
+                </button>
+
+                <button onclick="setCategoryFilter('Personal')" id="cat-Personal" class="nav-pill-btn inactive">
+                    <i class="fa-solid fa-user text-sm"></i>
+                    <span>Personal</span>
+                    <span id="count-Personal" class="ml-auto text-xs bg-black/30 px-2 py-0.5 rounded-full">0</span>
+                </button>
+
+                <button onclick="setCategoryFilter('Trabajo')" id="cat-Trabajo" class="nav-pill-btn inactive">
+                    <i class="fa-solid fa-briefcase text-sm"></i>
+                    <span>Trabajo / Estudio</span>
+                    <span id="count-Trabajo" class="ml-auto text-xs bg-black/30 px-2 py-0.5 rounded-full">0</span>
+                </button>
+
+                <button onclick="setCategoryFilter('Ideas')" id="cat-Ideas" class="nav-pill-btn inactive">
+                    <i class="fa-solid fa-lightbulb text-sm"></i>
+                    <span>Ideas / Proyectos</span>
+                    <span id="count-Ideas" class="ml-auto text-xs bg-black/30 px-2 py-0.5 rounded-full">0</span>
+                </button>
+
+                <button onclick="setCategoryFilter('Tareas')" id="cat-Tareas" class="nav-pill-btn inactive">
+                    <i class="fa-solid fa-check-double text-sm"></i>
+                    <span>Cartas / Tareas</span>
+                    <span id="count-Tareas" class="ml-auto text-xs bg-black/30 px-2 py-0.5 rounded-full">0</span>
+                </button>
+            </div>
+
+            <!-- Bottom Stellar Card Box -->
+            <div class="bg-stellar-card p-3.5 rounded-xl border border-stellar-border space-y-2 mt-4">
+                <div class="flex items-center gap-2 text-stellar-gold font-title font-bold text-xs">
+                    <i class="fa-solid fa-star"></i>
+                    <span>Frase del día</span>
+                </div>
+                <p class="italic text-stellar-textMuted text-xs leading-relaxed">
+                    "La disciplina supera a la motivación."
+                </p>
+            </div>
+        </aside>
+
+        <!-- Center/Left Notes List Column -->
+        <main class="flex-1 flex flex-col md:flex-row overflow-hidden bg-stellar-bg">
+            
+            <!-- Notes List Section -->
+            <section id="notesListSection" class="w-full md:w-80 lg:w-96 border-r border-stellar-border flex flex-col h-full bg-stellar-surface shrink-0">
+                
+                <!-- Search & Filters Header -->
+                <div class="p-4 border-b border-stellar-border space-y-3">
+                    <div class="relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-stellar-textMuted text-xs"></i>
+                        <input type="text" id="searchInput" placeholder="Buscar notas por título o texto..." 
+                            class="w-full bg-stellar-bg border border-stellar-border rounded-xl pl-9 pr-8 py-2 text-xs text-stellar-textLight placeholder-stellar-textMuted focus:outline-none focus:border-stellar-gold transition">
+                        <button id="clearSearch" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-stellar-textMuted hover:text-white text-xs">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+
+                    <div class="flex items-center justify-between text-xs">
+                        <span id="filterTitleLabel" class="font-title text-stellar-gold font-bold uppercase tracking-wider">Todas las notas</span>
+                        <div class="flex items-center gap-1">
+                            <button id="viewGridBtn" class="p-1.5 rounded hover:bg-stellar-card text-stellar-gold" title="Vista Cuadrícula">
+                                <i class="fa-solid fa-border-all"></i>
+                            </button>
+                            <button id="viewListBtn" class="p-1.5 rounded hover:bg-stellar-card text-stellar-textMuted" title="Vista Lista">
+                                <i class="fa-solid fa-list"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scrollable Cards Container -->
+                <div id="notesContainer" class="flex-1 overflow-y-auto p-3 space-y-3">
+                    <!-- Dynamic Notes Loaded Here -->
+                </div>
+
+                <!-- Footer Summary Counter -->
+                <div class="p-3 border-t border-stellar-border bg-stellar-card text-[11px] text-stellar-textMuted flex justify-between items-center">
+                    <span id="totalNotesLabel">0 notas</span>
+                    <span class="text-stellar-gold font-title font-semibold">Samsung Stellar Notes</span>
+                </div>
+            </section>
+
+            <!-- Editor / Viewer Panel -->
+            <section id="editorSection" class="flex-1 flex flex-col h-full bg-stellar-bg overflow-hidden relative">
+                
+                <!-- Placeholder view when no note is selected -->
+                <div id="emptyState" class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-10 bg-stellar-bg">
+                    <div class="w-20 h-20 rounded-full bg-stellar-card border border-stellar-border flex items-center justify-center text-3xl text-stellar-gold mb-4 shadow-xl">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </div>
+                    <h2 class="font-title text-2xl text-stellar-gold font-bold mb-2">SEÑAL-STELLAR NOTES</h2>
+                    <p class="text-stellar-textMuted text-xs max-w-md mb-6 leading-relaxed">
+                        Selecciona una nota de la lista lateral o crea una nueva nota con el botón verde para comenzar a escribir.
+                    </p>
+                    <button id="btnCreateFirstNote" class="btn-stellar-pill px-6 py-2.5 text-xs font-bold uppercase tracking-wider">
+                        <i class="fa-solid fa-plus"></i> Crear Nueva Nota
+                    </button>
+                </div>
+
+                <!-- Active Note Editor Toolbar -->
+                <div id="editorHeader" class="border-b border-stellar-border px-4 md:px-6 py-3 flex items-center justify-between gap-3 bg-stellar-surface shrink-0">
+                    <div class="flex items-center gap-2 flex-1 min-w-0">
+                        <button id="btnBackToList" class="md:hidden text-stellar-gold hover:text-white p-1 mr-1">
+                            <i class="fa-solid fa-chevron-left text-lg"></i>
+                        </button>
+                        <select id="noteCategorySelect" class="bg-stellar-card text-stellar-gold border border-stellar-border text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-stellar-gold font-semibold">
+                            <option value="Personal">📌 Personal</option>
+                            <option value="Trabajo">💼 Trabajo</option>
+                            <option value="Ideas">💡 Ideas</option>
+                            <option value="Tareas">📝 Tareas</option>
+                        </select>
+                        <span id="lastUpdatedLabel" class="text-[11px] text-stellar-textMuted truncate hidden sm:inline">Modificado hoy</span>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <button id="btnPinActiveNote" class="p-2 text-stellar-textMuted hover:text-stellar-gold rounded-lg hover:bg-stellar-card text-sm transition" title="Fijar Nota">
+                            <i class="fa-solid fa-thumbtack"></i>
+                        </button>
+                        <button id="btnDuplicateActiveNote" class="p-2 text-stellar-textMuted hover:text-stellar-gold rounded-lg hover:bg-stellar-card text-sm transition" title="Duplicar Nota">
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                        <button id="btnDeleteActiveNote" class="p-2 text-red-400 hover:text-red-300 rounded-lg hover:bg-stellar-card text-sm transition" title="Eliminar Nota">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                        <button id="btnManualSave" class="btn-stellar-pill px-4 py-1.5 text-xs font-bold uppercase">
+                            <i class="fa-solid fa-floppy-disk"></i> Guardar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Editor Workspace Area -->
+                <div class="flex-1 flex flex-col p-4 md:p-8 overflow-y-auto max-w-4xl w-full mx-auto">
+                    
+                    <!-- Title Field -->
+                    <input type="text" id="noteTitleInput" placeholder="Título de la nota..." 
+                        class="w-full bg-transparent text-2xl md:text-3xl font-title font-bold text-stellar-gold placeholder-stellar-textMuted/30 border-b border-transparent focus:border-stellar-border focus:outline-none pb-2 mb-4 transition">
+
+                    <!-- Samsung Notes Formatting Bar -->
+                    <div class="flex items-center gap-2 mb-4 pb-2 border-b border-stellar-border/60 text-stellar-textMuted text-xs flex-wrap">
+                        <button onclick="insertFormatting('**', '**')" class="px-2.5 py-1 rounded bg-stellar-card hover:text-stellar-gold border border-stellar-border font-bold" title="Negrita">B</button>
+                        <button onclick="insertFormatting('*', '*')" class="px-2.5 py-1 rounded bg-stellar-card hover:text-stellar-gold border border-stellar-border italic" title="Cursiva">I</button>
+                        <button onclick="insertFormatting('• ', '')" class="px-2.5 py-1 rounded bg-stellar-card hover:text-stellar-gold border border-stellar-border" title="Lista Viñetas"><i class="fa-solid fa-list-ul"></i></button>
+                        <button onclick="insertFormatting('[ ] ', '')" class="px-2.5 py-1 rounded bg-stellar-card hover:text-stellar-gold border border-stellar-border" title="Casilla de Selección"><i class="fa-regular fa-square-check"></i></button>
+                        <button onclick="insertFormatting('### ', '')" class="px-2.5 py-1 rounded bg-stellar-card hover:text-stellar-gold border border-stellar-border" title="Subtítulo">H3</button>
+                        
+                        <div class="ml-auto flex items-center gap-3 text-[11px] text-stellar-textMuted">
+                            <span id="charCount">0 caracteres</span>
+                            <span>&bull;</span>
+                            <span id="wordCount">0 palabras</span>
+                        </div>
+                    </div>
+
+                    <!-- Note Content Field -->
+                    <textarea id="noteContentInput" placeholder="Escribe aquí tu nota..." 
+                        class="w-full flex-1 bg-transparent font-editor text-stellar-textLight text-base md:text-lg leading-relaxed placeholder-stellar-textMuted/30 focus:outline-none resize-none min-h-[380px]"></textarea>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'signal_stellar_samsung_notes_db';
+        let notes = [];
+        let activeNoteId = null;
+        let currentCategory = 'all';
+        let isGridView = true;
+
+        // Elements
+        const notesContainer = document.getElementById('notesContainer');
+        const emptyState = document.getElementById('emptyState');
+        const noteTitleInput = document.getElementById('noteTitleInput');
+        const noteContentInput = document.getElementById('noteContentInput');
+        const noteCategorySelect = document.getElementById('noteCategorySelect');
+        const searchInput = document.getElementById('searchInput');
+        const clearSearchBtn = document.getElementById('clearSearch');
+        const filterTitleLabel = document.getElementById('filterTitleLabel');
+        const totalNotesLabel = document.getElementById('totalNotesLabel');
+        const charCountEl = document.getElementById('charCount');
+        const wordCountEl = document.getElementById('wordCount');
+        const lastUpdatedLabel = document.getElementById('lastUpdatedLabel');
+        const btnPinActiveNote = document.getElementById('btnPinActiveNote');
+        const btnSaveStatusText = document.getElementById('saveStatusText');
+
+        // Initial Load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadNotesFromStorage();
+            startHeaderClock();
+            setupEventListeners();
+            renderNotesList();
+            
+            if (notes.length > 0) {
+                selectNote(notes[0].id);
+            }
+        });
+
+        // Clock Functionality
+        function startHeaderClock() {
+            const updateClock = () => {
+                const now = new Date();
+                const months = ['sept', 'oct', 'nov', 'dic', 'ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago'];
+                const monthStr = months[now.getMonth()];
+                const day = now.getDate();
+                const year = now.getFullYear();
+                const timeStr = now.toLocaleTimeString('es-AR');
+                document.getElementById('headerClock').innerText = `${day} ${monthStr} ${year} - ${timeStr}`;
+            };
+            updateClock();
+            setInterval(updateClock, 1000);
+        }
+
+        // Local Storage Methods
+        function loadNotesFromStorage() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) {
+                    notes = JSON.parse(raw);
+                } else {
+                    // Default Demo Data matching SEÑAL-STELLAR Theme
+                    notes = [
+                        {
+                            id: 'stellar-1',
+                            title: 'Bienvenido a SEÑAL-STELLAR Notes',
+                            content: 'Esta es tu libreta de notas interactiva estilo Samsung Notes con diseño SEÑAL-STELLAR.\n\n• Todo se guarda automáticamente en tu navegador.\n• Puedes categorizar tus notas en Personal, Trabajo, Ideas o Tareas.\n• Fija tus notas más importantes arriba.\n\n"La disciplina supera a la motivación."',
+                            category: 'Personal',
+                            pinned: true,
+                            updatedAt: new Date().toLocaleString('es-AR')
+                        },
+                        {
+                            id: 'stellar-2',
+                            title: 'Objetivos y Rachas',
+                            content: '[ ] Completar 12 temporizadores de enfoque\n[x] Mantener racha de 5 días de constancia\n[ ] Registrar mejores marcas',
+                            category: 'Tareas',
+                            pinned: false,
+                            updatedAt: new Date().toLocaleString('es-AR')
+                        }
+                    ];
+                    saveNotesToStorage();
+                }
+            } catch (err) {
+                console.error("Error al cargar localStorage:", err);
+                notes = [];
+            }
+        }
+
+        function saveNotesToStorage() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+                btnSaveStatusText.innerText = 'Guardado en tiempo real';
+            } catch (err) {
+                console.error("Error al guardar en localStorage:", err);
+                btnSaveStatusText.innerText = 'Error al guardar';
+            }
+        }
+
+        function renderNotesList() {
+            const query = searchInput.value.toLowerCase().trim();
+
+            let filtered = notes.filter(n => {
+                const matchesQuery = n.title.toLowerCase().includes(query) || n.content.toLowerCase().includes(query);
+                if (!matchesQuery) return false;
+
+                if (currentCategory === 'all') return true;
+                if (currentCategory === 'pinned') return n.pinned;
+                return n.category === currentCategory;
+            });
+
+            // Sort: Pinned first, then latest updated
+            filtered.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+
+            // Update Counts in UI
+            updateCategoryCounts();
+
+            notesContainer.innerHTML = '';
+
+            if (filtered.length === 0) {
+                notesContainer.innerHTML = `
+                    <div class="text-center py-12 px-4 text-stellar-textMuted">
+                        <i class="fa-solid fa-folder-open text-3xl text-stellar-border mb-2 block"></i>
+                        <p class="text-xs">No hay notas encontradas.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(note => {
+                const isSelected = note.id === activeNoteId;
+                const card = document.createElement('div');
+                
+                let badgeStyle = 'badge-personal';
+                if (note.category === 'Trabajo') badgeStyle = 'badge-trabajo';
+                if (note.category === 'Ideas') badgeStyle = 'badge-ideas';
+                if (note.category === 'Tareas') badgeStyle = 'badge-tareas';
+
+                card.className = `p-3.5 rounded-xl cursor-pointer border transition-all duration-200 relative ${
+                    isSelected 
+                        ? 'bg-stellar-card border-stellar-gold shadow-lg ring-1 ring-stellar-gold/30' 
+                        : 'bg-stellar-surface border-stellar-border hover:border-stellar-cardHover hover:bg-stellar-card/60'
+                }`;
+
+                card.onclick = () => selectNote(note.id);
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-2 mb-1.5">
+                        <h3 class="font-title font-bold text-sm ${isSelected ? 'text-stellar-gold' : 'text-stellar-textLight'} truncate flex-1">
+                            ${escapeHtml(note.title || 'Sin Título')}
+                        </h3>
+                        ${note.pinned ? '<i class="fa-solid fa-thumbtack text-xs text-stellar-gold"></i>' : ''}
+                    </div>
+                    <p class="text-xs text-stellar-textMuted line-clamp-2 leading-relaxed mb-3 font-body">
+                        ${escapeHtml(note.content || 'Nota sin texto...')}
+                    </p>
+                    <div class="flex items-center justify-between text-[10px]">
+                        <span class="px-2 py-0.5 rounded font-semibold ${badgeStyle}">
+                            ${note.category || 'General'}
+                        </span>
+                        <span class="text-stellar-textMuted/70">${note.updatedAt.split(',')[0]}</span>
+                    </div>
+                `;
+
+                notesContainer.appendChild(card);
+            });
+        }
+
+        function updateCategoryCounts() {
+            document.getElementById('count-all').innerText = notes.length;
+            document.getElementById('count-pinned').innerText = notes.filter(n => n.pinned).length;
+            ['Personal', 'Trabajo', 'Ideas', 'Tareas'].forEach(cat => {
+                const el = document.getElementById(`count-${cat}`);
+                if (el) el.innerText = notes.filter(n => n.category === cat).length;
+            });
+            totalNotesLabel.innerText = `${notes.length} ${notes.length === 1 ? 'nota' : 'notas'}`;
+        }
+
+        function selectNote(id) {
+            activeNoteId = id;
+            const note = notes.find(n => n.id === id);
+
+            if (!note) {
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            noteTitleInput.value = note.title;
+            noteContentInput.value = note.content;
+            noteCategorySelect.value = note.category || 'Personal';
+            lastUpdatedLabel.innerText = `Modificado: ${note.updatedAt}`;
+
+            updatePinBtnVisual(note.pinned);
+            updateCounters();
+            renderNotesList();
+
+            // Responsive view handling
+            if (window.innerWidth < 768) {
+                document.getElementById('notesListSection').classList.add('hidden');
+            }
+        }
+
+        function createNewNote() {
+            const newNote = {
+                id: 'stellar-' + Date.now(),
+                title: 'Nueva Nota',
+                content: '',
+                category: currentCategory !== 'all' && currentCategory !== 'pinned' ? currentCategory : 'Personal',
+                pinned: false,
+                updatedAt: new Date().toLocaleString('es-AR')
+            };
+
+            notes.unshift(newNote);
+            saveNotesToStorage();
+            selectNote(newNote.id);
+            noteTitleInput.focus();
+        }
+
+        function autoSaveNote() {
+            if (!activeNoteId) return;
+
+            const note = notes.find(n => n.id === activeNoteId);
+            if (!note) return;
+
+            note.title = noteTitleInput.value;
+            note.content = noteContentInput.value;
+            note.category = noteCategorySelect.value;
+            note.updatedAt = new Date().toLocaleString('es-AR');
+
+            lastUpdatedLabel.innerText = `Modificado: ${note.updatedAt}`;
+            updateCounters();
+            saveNotesToStorage();
+            renderNotesList();
+        }
+
+        function deleteActiveNote() {
+            if (!activeNoteId) return;
+            notes = notes.filter(n => n.id !== activeNoteId);
+            saveNotesToStorage();
+            activeNoteId = null;
+            emptyState.classList.remove('hidden');
+            renderNotesList();
+        }
+
+        function duplicateActiveNote() {
+            if (!activeNoteId) return;
+            const original = notes.find(n => n.id === activeNoteId);
+            if (!original) return;
+
+            const duplicate = {
+                ...original,
+                id: 'stellar-' + Date.now(),
+                title: original.title + ' (Copia)',
+                updatedAt: new Date().toLocaleString('es-AR')
+            };
+
+            notes.unshift(duplicate);
+            saveNotesToStorage();
+            selectNote(duplicate.id);
+        }
+
+        function togglePinActiveNote() {
+            if (!activeNoteId) return;
+            const note = notes.find(n => n.id === activeNoteId);
+            if (note) {
+                note.pinned = !note.pinned;
+                updatePinBtnVisual(note.pinned);
+                saveNotesToStorage();
+                renderNotesList();
+            }
+        }
+
+        function updatePinBtnVisual(isPinned) {
+            if (isPinned) {
+                btnPinActiveNote.classList.add('text-stellar-gold');
+                btnPinActiveNote.classList.remove('text-stellar-textMuted');
+            } else {
+                btnPinActiveNote.classList.remove('text-stellar-gold');
+                btnPinActiveNote.classList.add('text-stellar-textMuted');
+            }
+        }
+
+        function setCategoryFilter(category) {
+            currentCategory = category;
+
+            // Highlight active button in sidebar
+            document.querySelectorAll('.nav-pill-btn').forEach(btn => {
+                btn.classList.add('inactive');
+            });
+            const activeBtn = document.getElementById(`cat-${category}`);
+            if (activeBtn) activeBtn.classList.remove('inactive');
+
+            filterTitleLabel.innerText = category === 'all' ? 'Todas las notas' : category === 'pinned' ? 'Notas Fijadas' : category;
+            renderNotesList();
+
+            // Mobile sidebar collapse
+            if (window.innerWidth < 768) {
+                document.getElementById('sidebar').classList.add('-translate-x-full');
+            }
+        }
+
+        function insertFormatting(prefix, suffix) {
+            const input = noteContentInput;
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            const selectedText = input.value.substring(start, end);
+            const replacement = prefix + selectedText + suffix;
+
+            input.value = input.value.substring(0, start) + replacement + input.value.substring(end);
+            input.focus();
+            input.setSelectionRange(start + prefix.length, end + prefix.length);
+            autoSaveNote();
+        }
+
+        function updateCounters() {
+            const text = noteContentInput.value;
+            charCountEl.innerText = `${text.length} caracteres`;
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            wordCountEl.innerText = `${words} palabras`;
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+        }
+
+        function setupEventListeners() {
+            btnNewNoteTop.addEventListener('click', createNewNote);
+            document.getElementById('btnCreateFirstNote').addEventListener('click', createNewNote);
+            document.getElementById('btnDeleteActiveNote').addEventListener('click', deleteActiveNote);
+            document.getElementById('btnDuplicateActiveNote').addEventListener('click', duplicateActiveNote);
+            btnPinActiveNote.addEventListener('click', togglePinActiveNote);
+            document.getElementById('btnManualSave').addEventListener('click', autoSaveNote);
+
+            noteTitleInput.addEventListener('input', autoSaveNote);
+            noteContentInput.addEventListener('input', autoSaveNote);
+            noteCategorySelect.addEventListener('change', autoSaveNote);
+
+            searchInput.addEventListener('input', (e) => {
+                if (e.target.value) {
+                    clearSearchBtn.classList.remove('hidden');
+                } else {
+                    clearSearchBtn.classList.add('hidden');
+                }
+                renderNotesList();
+            });
+
+            clearSearchBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                clearSearchBtn.classList.add('hidden');
+                renderNotesList();
+            });
+
+            document.getElementById('btnBackToList').addEventListener('click', () => {
+                document.getElementById('notesListSection').classList.remove('hidden');
+            });
+
+            document.getElementById('toggleMobileMenu').addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('-translate-x-full');
+            });
+        }
+    </script>
+</body>
+</html>
